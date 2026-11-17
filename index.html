@@ -731,6 +731,7 @@ jshaman-jsminify -c -m &lt; input.js &gt; input.min.js
 jshaman-jsminify app.js -o app.min.js --source-map</pre>
 <h3>Node API</h3>
 <pre class="code-block" data-lang="js">const { minify } = require("jshaman-jsminify");
+const source = "const answer = 42; console.log(answer);";
 
 const result = minify(source, {
 	compress: { drop_console: true, passes: 2 },
@@ -809,6 +810,7 @@ console.log(result.code);</pre>
 <h3>minify(source, options)</h3>
 <p>Returns <code>{ code, map, error, warnings, reports, stats }</code>. It does not throw for minification failures; check <code>result.error</code>.</p>
 <pre class="code-block" data-lang="js">const { minify } = require("jshaman-jsminify");
+const source = "const answer = 42; console.log(answer);";
 
 const result = minify(source, {
 	target: "es5",
@@ -903,7 +905,8 @@ const result = minify(source, {
 <summary class="doc-summary"><span class="doc-num">05</span> Source maps &amp; nameCache<span class="doc-chevron" aria-hidden="true">▾</span></summary>
 <div class="doc-body">
 <p>Generate an external map, inline it as a data URI, or chain an upstream map. <code>nameCache</code> keeps renamed identifiers consistent across multiple builds.</p>
-<pre class="code-block" data-lang="js">const result = minify(source, {
+<pre class="code-block" data-lang="js">const source = "const answer = 42; console.log(answer);";
+const result = minify(source, {
 	sourceMap: {
 		filename: "app.min.js",
 		url: "app.min.js.map",
@@ -911,7 +914,12 @@ const result = minify(source, {
 	},
 	nameCache: {}
 });</pre>
-</div>
+<div class="map-file-note"><h3>Where are the files written?</h3><p><code>minify()</code> returns <code>code</code> and <code>map</code> strings. Persist them yourself:</p><pre class="code-block" data-lang="js">const fs = require("fs");
+const path = require("path");
+
+const jsFile = path.join(__dirname, "app.min.js");
+fs.writeFileSync(jsFile, result.code);
+if (result.map) fs.writeFileSync(jsFile + ".map", result.map);</pre><p>The CLI writes both files when <code>-o</code> is supplied: <code>jshaman-jsminify input.js -o app.min.js --source-map</code>.</p></div></div>
 </details>
 <details class="doc-card" id="compat">
 <summary class="doc-summary"><span class="doc-num">06</span> Compatibility &amp; ES targets<span class="doc-chevron" aria-hidden="true">▾</span></summary>
@@ -925,7 +933,7 @@ const result = minify(source, {
 <li>With <code>eval</code> / <code>with</code>, scope-dependent optimizations degrade and emit a warning.</li>
 </ul>
 </div>
-</details><details class="doc-card" id="examples"><summary class="doc-summary"><span class="doc-num">07</span> Complete examples<span class="doc-chevron" aria-hidden="true">▾</span></summary><div class="doc-body"><div class="example-grid"><article class="example-card"><div class="example-head"><h3>Remove unused code + local mangling</h3><span class="example-tag">unused / mangle</span></div><div class="example-pair"><div><span class="example-label">Input</span><pre class="code-block" data-lang="js">function app() {
+</details><details class="doc-card" id="examples"><summary class="doc-summary"><span class="doc-num">07</span> Complete examples<span class="doc-chevron" aria-hidden="true">▾</span></summary><div class="doc-body"><p class="example-intro">Each card lists the options used for its output; unlisted options use the library defaults.</p><div class="example-grid"><article class="example-card"><div class="example-head"><h3>Remove unused code + local mangling</h3><span class="example-tag">unused / mangle</span></div><div class="example-pair"><div><span class="example-label">Input</span><pre class="code-block" data-lang="js">function app() {
 	function unusedHelper() {
 		return 42;
 	}
