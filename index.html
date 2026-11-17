@@ -1000,7 +1000,104 @@ console.log(MyLibrary.version);</pre></div><div><span class="example-label">Outp
 	semicolons: false,
 	indent_start: 2
 }</pre></div><div><span class="example-label">Output</span><pre class="code-block" data-lang="js">  var s = 'a'
-  s &amp;&amp; console.log(s)</pre></div></div><p class="example-note">Optional semicolons are omitted only where ASI is safe. A line starting with (, [, / and similar keeps its semicolon.</p></article></div></div></details></section>
+  s &amp;&amp; console.log(s)</pre></div></div><p class="example-note">Optional semicolons are omitted only where ASI is safe. A line starting with (, [, / and similar keeps its semicolon.</p></article></div></div></details><details class="doc-card" id="full-config"><summary class="doc-summary"><span class="doc-num">08</span> Complete configuration example<span class="doc-chevron" aria-hidden="true">▾</span></summary><div class="doc-body"><p>Every supported option is set explicitly. Enabled options are true, disabled options are false; values and example values are shown as well.</p><pre class="code-block" data-lang="js">const { minify } = require("jshaman-jsminify");
+const source = "const answer = 42; console.log(answer);";
+
+// All 74 options are set explicitly. Adjust values for your build.
+const options = {
+	"compress": {
+		"unused": true,
+		"toplevel": false,
+		"dead_code": true,
+		"side_effects": true,
+		"join_vars": true,
+		"sequences": true,
+		"if_return": true,
+		"booleans": true,
+		"assignments": true,
+		"directives": true,
+		"loops": true,
+		"switches": true,
+		"inline": true,
+		"arguments": true,
+		"arrows": false,
+		"hoist_funs": false,
+		"hoist_vars": false,
+		"unsafe_undefined": false,
+		"unsafe_math": false,
+		"unsafe_proto": false,
+		"unsafe_regexp": false,
+		"properties": true,
+		"empty_statement": true,
+		"conditionals": true,
+		"inline_literals": true,
+		"collapse_vars": true,
+		"reduce_vars": true,
+		"evaluate": true,
+		"drop_debugger": true,
+		"drop_console": false,
+		"pure_getters": false,
+		"keep_fargs": true,
+		"pure_funcs": [],
+		"passes": 2,
+		"unused_functions": true,
+		"unused_variables": true,
+		"unused_toplevel_functions": false,
+		"unused_toplevel_variables": false
+	},
+	"mangle": {
+		"variables": true,
+		"functions": true,
+		"toplevel": false,
+		"keep_classnames": false,
+		"toplevel_variables": false,
+		"toplevel_functions": false,
+		"reserved": [
+			"$",
+			"jQuery"
+		],
+		"properties": false
+	},
+	"output": {
+		"beautify": false,
+		"comments": "some",
+		"ascii_only": false,
+		"quote_style": "double",
+		"preamble": "/*! My App */",
+		"inline_script": false,
+		"shebang": true,
+		"preserve_line": false,
+		"braces": false,
+		"quote_keys": false,
+		"keep_quoted_props": false,
+		"max_line_len": 0,
+		"width": 0,
+		"wrap_iife": false,
+		"semicolons": true,
+		"indent_start": 0,
+		"indent_level": 0
+	},
+	"parse": {
+		"sourceType": "unambiguous",
+		"plugins": [],
+		"allowReturnOutsideFunction": false,
+		"expression": false
+	},
+	"sourceMap": {
+		"filename": "app.min.js",
+		"url": "app.min.js.map",
+		"includeSources": true
+	},
+	"target": "esnext",
+	"nameCache": {},
+	"report": true,
+	"ie8": false,
+	"safari10": false,
+	"webkit": false
+};
+
+const result = minify(source, options);
+if (result.error) throw result.error;</pre></div></details></section>
 
 	<!-- ===== PLUGINS ===== -->
 	<section class="section" id="plugins"><div class="section-header">
@@ -1136,6 +1233,7 @@ export default {
 <li><a href="#api">Node API</a></li>
 <li><a href="#options">Options</a></li>
 <li><a href="#sourcemap">Source maps</a></li>
+<li><a href="#full-config">Full configuration</a></li>
 <li><a href="#examples">Examples</a></li>
 </ul></div>
 <div class="footer-links"><h4>Build tools</h4><ul>
