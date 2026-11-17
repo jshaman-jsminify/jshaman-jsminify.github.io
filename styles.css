@@ -1337,6 +1337,13 @@ section[id],
 }
 
 .seo-section h3,
+.doc-card h4 {
+	margin: 24px 0 10px;
+	color: var(--text-primary);
+	font-size: 15px;
+	font-weight: 700;
+}
+
 .doc-card h3 {
 	margin: 28px 0 10px;
 	color: var(--text-primary);

@@ -756,7 +756,52 @@ console.log(result.code);</pre>
 <tr><td><code>--no-report</code></td><td>Disable the per-operation optimization report in build logs</td></tr>
 <tr><td><code>--ie8</code>, <code>--safari10</code>, <code>--webkit</code></td><td>Compatibility modes</td></tr>
 </tbody></table></div>
-</div>
+<div class="full-cli-flags"><h3>All CLI flags</h3><div class="table-wrap"><table><thead><tr><th>Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-o, --output &lt;file&gt;</code></td><td>Write output to a file; stdout by default.</td></tr>
+<tr><td><code>-c, --compress [opts]</code></td><td>Enable compression (default); accepts key=value options.</td></tr>
+<tr><td><code>--no-compress</code></td><td>Disable compression.</td></tr>
+<tr><td><code>--drop-console</code></td><td>Remove console.* calls.</td></tr>
+<tr><td><code>--no-drop-console</code></td><td>Keep console.* calls.</td></tr>
+<tr><td><code>--no-debugger</code></td><td>Remove debugger statements (default).</td></tr>
+<tr><td><code>--passes &lt;n&gt;</code></td><td>Number of compression passes (default 1).</td></tr>
+<tr><td><code>--no-keep-fargs</code></td><td>Remove unused function parameters.</td></tr>
+<tr><td><code>-m, --mangle [opts]</code></td><td>Enable variable/function mangling (default).</td></tr>
+<tr><td><code>--no-mangle</code></td><td>Disable mangling.</td></tr>
+<tr><td><code>--mangle-toplevel</code></td><td>Also mangle top-level names.</td></tr>
+<tr><td><code>--keep-fnames</code></td><td>Keep function names.</td></tr>
+<tr><td><code>--keep-classnames</code></td><td>Keep class names.</td></tr>
+<tr><td><code>--mangle-props [opts]</code></td><td>Mangle property names; reserved=a,b; keep_quoted=false.</td></tr>
+<tr><td><code>--reserved &lt;names&gt;</code></td><td>Names to keep; comma-separated, /regex/ supported.</td></tr>
+<tr><td><code>--toplevel</code></td><td>Process top-level declarations too.</td></tr>
+<tr><td><code>-b, --beautify [opts]</code></td><td>Beautify output without whitespace compression.</td></tr>
+<tr><td><code>--comments [value]</code></td><td>Keep comments: all, some (@license) or /regex/.</td></tr>
+<tr><td><code>--quote-style &lt;style&gt;</code></td><td>Quote style: single, double or backtick.</td></tr>
+<tr><td><code>--preamble &lt;text&gt;</code></td><td>Prepend text to the output.</td></tr>
+<tr><td><code>--inline-script</code></td><td>Escape &lt;/script for inline HTML.</td></tr>
+<tr><td><code>--no-shebang</code></td><td>Remove the shebang line.</td></tr>
+<tr><td><code>--preserve-line</code></td><td>Try to preserve original line numbers.</td></tr>
+<tr><td><code>--braces</code></td><td>Add braces to single-statement bodies.</td></tr>
+<tr><td><code>--quote-keys</code></td><td>Quote all object keys.</td></tr>
+<tr><td><code>--keep-quoted-props</code></td><td>Keep existing object-key quotes.</td></tr>
+<tr><td><code>--width &lt;columns&gt;</code></td><td>Wrap lines after this width; 0 disables wrapping.</td></tr>
+<tr><td><code>--indent-start &lt;n&gt;</code></td><td>Extra leading spaces.</td></tr>
+<tr><td><code>--indent-level &lt;n&gt;</code></td><td>Initial indent level; 4 spaces per level.</td></tr>
+<tr><td><code>--no-semicolons</code></td><td>Omit optional semicolons.</td></tr>
+<tr><td><code>--wrap-iife</code></td><td>Wrap IIFEs in extra parentheses.</td></tr>
+<tr><td><code>--ie8</code></td><td>IE8-compatible mangling and property output.</td></tr>
+<tr><td><code>--safari10</code></td><td>Safari 10/11 loop-scope compatibility.</td></tr>
+<tr><td><code>--webkit</code></td><td>Safari/WebKit compatibility.</td></tr>
+<tr><td><code>--ascii-only</code></td><td>Output ASCII only.</td></tr>
+<tr><td><code>--target &lt;version&gt;</code></td><td>Output target: es5, es2015 ... es2022, esnext.</td></tr>
+<tr><td><code>--source-map [opts]</code></td><td>Generate a source map: map-file=, url=, root=, source=, includeSources=false, inline, content=inline.</td></tr>
+<tr><td><code>--name-cache &lt;file&gt;</code></td><td>Reuse and save renaming results across builds.</td></tr>
+<tr><td><code>--source-type &lt;type&gt;</code></td><td>script, module or unambiguous (default).</td></tr>
+<tr><td><code>--parse &lt;options&gt;</code></td><td>Parser options: expression=true, plugins=[jsx], allowReturnOutsideFunction=true.</td></tr>
+<tr><td><code>--expression</code></td><td>Parse the input as a single expression.</td></tr>
+<tr><td><code>--no-report</code></td><td>Disable per-operation optimization details.</td></tr>
+<tr><td><code>--report</code></td><td>Force optimization details (default).</td></tr>
+<tr><td><code>--stats</code></td><td>Write compression statistics to stderr.</td></tr>
+<tr><td><code>-V, --version</code></td><td>Print version.</td></tr>
+<tr><td><code>-h, --help</code></td><td>Print help.</td></tr></tbody></table></div></div></div>
 </details>
 <details class="doc-card" id="api">
 <summary class="doc-summary"><span class="doc-num">03</span> Node API<span class="doc-chevron" aria-hidden="true">▾</span></summary>
@@ -780,7 +825,7 @@ const result = minify(source, {
 <details class="doc-card" id="options">
 <summary class="doc-summary"><span class="doc-num">04</span> Options overview<span class="doc-chevron" aria-hidden="true">▾</span></summary>
 <div class="doc-body">
-<p>All options are optional. The online UI exposes the common ones; the full reference lives in the README.</p>
+<p>All options are optional. Defaults below match the library; the online UI turns on a safe subset.</p>
 <div class="table-wrap"><table><thead><tr><th>Group</th><th>What it controls</th></tr></thead><tbody>
 <tr><td><code>compress</code></td><td>38 optimizations: dead code, side effects, sequences, conditionals, loops, switches, inlining, constant folding, unsafe rewrites</td></tr>
 <tr><td><code>mangle</code></td><td>Variable/function renaming, top-level scope, reserved names, class names and property mangling</td></tr>
@@ -790,7 +835,80 @@ const result = minify(source, {
 <tr><td><code>sourceMap</code> / <code>nameCache</code></td><td>Source map generation and stable renaming across builds</td></tr>
 </tbody></table></div>
 <p>Safe defaults are used for production. <code>drop_console</code>, <code>unsafe_*</code>, top-level mangling and property mangling are opt-in.</p>
-</div>
+<div class="full-option-reference"><h3>Full option reference</h3><h4>compress — optimization</h4><div class="table-wrap"><table><thead><tr><th>Option</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>compress.unused</code></td><td>true</td><td>Remove unused local functions and variables.</td></tr>
+<tr><td><code>compress.toplevel</code></td><td>false</td><td>Also compress and mangle top-level declarations.</td></tr>
+<tr><td><code>compress.dead_code</code></td><td>true</td><td>Remove code after return, throw and other unreachable code.</td></tr>
+<tr><td><code>compress.side_effects</code></td><td>true</td><td>Drop expressions and statements with no side effects.</td></tr>
+<tr><td><code>compress.join_vars</code></td><td>true</td><td>Merge adjacent var, let and const declarations.</td></tr>
+<tr><td><code>compress.sequences</code></td><td>true</td><td>Merge consecutive expression statements into comma sequences.</td></tr>
+<tr><td><code>compress.if_return</code></td><td>true</td><td>Merge if/return branches where equivalent.</td></tr>
+<tr><td><code>compress.booleans</code></td><td>true</td><td>Rewrite true to !0 and false to !1.</td></tr>
+<tr><td><code>compress.assignments</code></td><td>true</td><td>Simplify assignments and increment/decrement expressions.</td></tr>
+<tr><td><code>compress.directives</code></td><td>true</td><td>Deduplicate directive prologues such as use strict.</td></tr>
+<tr><td><code>compress.loops</code></td><td>true</td><td>Simplify while(true), for(;;), do-while(false) and similar loops.</td></tr>
+<tr><td><code>compress.switches</code></td><td>true</td><td>Remove trailing breaks and convert simple switches to if.</td></tr>
+<tr><td><code>compress.inline</code></td><td>true</td><td>Inline simple single-use functions with a single return.</td></tr>
+<tr><td><code>compress.arguments</code></td><td>true</td><td>Rewrite arguments[0] to the corresponding parameter name.</td></tr>
+<tr><td><code>compress.arrows</code></td><td>false</td><td>Convert function callbacks to arrow functions (ES6+, opt-in).</td></tr>
+<tr><td><code>compress.hoist_funs</code></td><td>false</td><td>Move function declarations to the top of their scope.</td></tr>
+<tr><td><code>compress.hoist_vars</code></td><td>false</td><td>Merge nested var declarations into the function top.</td></tr>
+<tr><td><code>compress.unsafe_undefined</code></td><td>false</td><td>Replace undefined references with void 0 (unsafe if shadowed).</td></tr>
+<tr><td><code>compress.unsafe_math</code></td><td>false</td><td>Rewrite Math.pow(x, 2) and x ** 2 as multiplication (unsafe).</td></tr>
+<tr><td><code>compress.unsafe_proto</code></td><td>false</td><td>Rewrite prototype access (unsafe).</td></tr>
+<tr><td><code>compress.unsafe_regexp</code></td><td>false</td><td>Convert RegExp constructors to regular expression literals.</td></tr>
+<tr><td><code>compress.properties</code></td><td>true</td><td>Simplify property access such as o["a"] to o.a.</td></tr>
+<tr><td><code>compress.empty_statement</code></td><td>true</td><td>Remove empty statements and empty else branches.</td></tr>
+<tr><td><code>compress.conditionals</code></td><td>true</td><td>Convert if statements to ternaries or short-circuit expressions.</td></tr>
+<tr><td><code>compress.inline_literals</code></td><td>true</td><td>Inline constant references at their use sites.</td></tr>
+<tr><td><code>compress.collapse_vars</code></td><td>true</td><td>Merge single-use variables into their use sites.</td></tr>
+<tr><td><code>compress.reduce_vars</code></td><td>true</td><td>Propagate single-assignment constant variables.</td></tr>
+<tr><td><code>compress.evaluate</code></td><td>true</td><td>Fold constant expressions such as 1 + 2 to 3.</td></tr>
+<tr><td><code>compress.drop_debugger</code></td><td>true</td><td>Remove debugger statements.</td></tr>
+<tr><td><code>compress.drop_console</code></td><td>false</td><td>Remove console.* calls. This changes runtime behavior.</td></tr>
+<tr><td><code>compress.pure_getters</code></td><td>false</td><td>Treat property reads as pure and remove them when safe (unsafe).</td></tr>
+<tr><td><code>compress.keep_fargs</code></td><td>true</td><td>Keep unused function parameters (safer).</td></tr>
+<tr><td><code>compress.pure_funcs</code></td><td>[]</td><td>Function calls that may be removed when their result is unused.</td></tr>
+<tr><td><code>compress.passes</code></td><td>1</td><td>Number of compression passes. The web UI uses 2 by default.</td></tr>
+<tr><td><code>compress.unused_functions</code></td><td>null</td><td>Override unused handling for functions: true or false.</td></tr>
+<tr><td><code>compress.unused_variables</code></td><td>null</td><td>Override unused handling for variables: true or false.</td></tr>
+<tr><td><code>compress.unused_toplevel_functions</code></td><td>null</td><td>Override unused handling for top-level functions.</td></tr>
+<tr><td><code>compress.unused_toplevel_variables</code></td><td>null</td><td>Override unused handling for top-level variables.</td></tr></tbody></table></div>
+<h4>mangle — renaming</h4><div class="table-wrap"><table><thead><tr><th>Option</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>mangle.variables</code></td><td>true</td><td>Rename local variables to short names.</td></tr>
+<tr><td><code>mangle.functions</code></td><td>true</td><td>Rename local functions to short names.</td></tr>
+<tr><td><code>mangle.toplevel</code></td><td>false</td><td>Rename top-level names. Enable only when no external references exist.</td></tr>
+<tr><td><code>mangle.keep_classnames</code></td><td>false</td><td>Do not rename class names.</td></tr>
+<tr><td><code>mangle.toplevel_variables</code></td><td>null</td><td>Override top-level variable renaming: true or false.</td></tr>
+<tr><td><code>mangle.toplevel_functions</code></td><td>null</td><td>Override top-level function renaming: true or false.</td></tr>
+<tr><td><code>mangle.reserved</code></td><td>[]</td><td>Names that must not be renamed; supports strings and /regex/.</td></tr>
+<tr><td><code>mangle.properties</code></td><td>false</td><td>Mangle property names. Can be an object with reserved, keep_quoted and regex.</td></tr></tbody></table></div>
+<h4>output — formatting</h4><div class="table-wrap"><table><thead><tr><th>Option</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>output.beautify</code></td><td>false</td><td>Pretty-print output with line breaks and indentation.</td></tr>
+<tr><td><code>output.comments</code></td><td>false</td><td>Keep comments: false removes all, true keeps all, "some" keeps @license.</td></tr>
+<tr><td><code>output.ascii_only</code></td><td>false</td><td>Escape non-ASCII characters.</td></tr>
+<tr><td><code>output.quote_style</code></td><td>null</td><td>Quote style: "single", "double" or "backtick".</td></tr>
+<tr><td><code>output.preamble</code></td><td>""</td><td>Text prepended to the output.</td></tr>
+<tr><td><code>output.inline_script</code></td><td>false</td><td>Escape &lt;/script so output can be embedded in HTML.</td></tr>
+<tr><td><code>output.shebang</code></td><td>true</td><td>Keep the first shebang line.</td></tr>
+<tr><td><code>output.preserve_line</code></td><td>false</td><td>Try to preserve original line numbers.</td></tr>
+<tr><td><code>output.braces</code></td><td>false</td><td>Add braces to single-statement if and loop bodies.</td></tr>
+<tr><td><code>output.quote_keys</code></td><td>false</td><td>Quote all object keys.</td></tr>
+<tr><td><code>output.keep_quoted_props</code></td><td>false</td><td>Keep quotes on object keys that were quoted.</td></tr>
+<tr><td><code>output.max_line_len</code></td><td>0</td><td>Wrap lines after this many characters; 0 disables wrapping.</td></tr>
+<tr><td><code>output.width</code></td><td>0</td><td>Alias for max_line_len.</td></tr>
+<tr><td><code>output.wrap_iife</code></td><td>false</td><td>Wrap immediately invoked function expressions in extra parentheses.</td></tr>
+<tr><td><code>output.semicolons</code></td><td>true</td><td>Emit semicolons. false omits optional semicolons.</td></tr>
+<tr><td><code>output.indent_start</code></td><td>0</td><td>Extra spaces at the start of each line.</td></tr>
+<tr><td><code>output.indent_level</code></td><td>0</td><td>Initial indentation level; each level is 4 spaces.</td></tr></tbody></table></div>
+<h4>parse — parser</h4><div class="table-wrap"><table><thead><tr><th>Option</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>parse.sourceType</code></td><td>"unambiguous"</td><td>Source type: "script", "module" or "unambiguous".</td></tr>
+<tr><td><code>parse.plugins</code></td><td>[]</td><td>Babel parser plugins, such as jsx or typescript.</td></tr>
+<tr><td><code>parse.allowReturnOutsideFunction</code></td><td>false</td><td>Allow return statements outside functions.</td></tr>
+<tr><td><code>parse.expression</code></td><td>false</td><td>Parse the input as a single expression.</td></tr></tbody></table></div>
+<h4>Top-level options</h4><div class="table-wrap"><table><thead><tr><th>Option</th><th>Default</th><th>Description</th></tr></thead><tbody><tr><td><code>top.sourceMap</code></td><td>false</td><td>Enable source maps. Can be true or an object with filename, url, root, source, includeSources, inline and content.</td></tr>
+<tr><td><code>top.target</code></td><td>"esnext"</td><td>Output ES target: es5, es2015 ... es2022 or esnext.</td></tr>
+<tr><td><code>top.nameCache</code></td><td>null</td><td>Reuse renaming results across builds; pass an object and persist it.</td></tr>
+<tr><td><code>top.report</code></td><td>true</td><td>Collect per-operation optimization reports.</td></tr>
+<tr><td><code>top.ie8</code></td><td>false</td><td>IE8-compatible mangling and property output.</td></tr>
+<tr><td><code>top.safari10</code></td><td>false</td><td>Safari 10/11 loop-scope compatibility.</td></tr>
+<tr><td><code>top.webkit</code></td><td>false</td><td>Safari/WebKit compatibility.</td></tr></tbody></table></div></div></div>
 </details>
 <details class="doc-card" id="sourcemap">
 <summary class="doc-summary"><span class="doc-num">05</span> Source maps &amp; nameCache<span class="doc-chevron" aria-hidden="true">▾</span></summary>
