@@ -1,0 +1,46 @@
+JShaman-JSMinify — Third-Party Notices
+
+The browser bundle in this directory includes code from the following
+third-party packages. They are distributed under permissive licenses.
+
+1. @babel/parser, @babel/traverse, @babel/generator, @babel/types,
+   and their transitive dependencies
+   Copyright (c) 2014-present Sebastian McKenzie and other contributors
+   License: MIT
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+   IN THE SOFTWARE.
+
+2. @jridgewell/trace-mapping and @jridgewell/* packages
+   License: MIT
+
+3. picocolors
+   License: ISC
+
+4. @babel/standalone
+   Used for optional ES version downleveling (target option).
+   License: MIT
+
+5. esbuild is used only at build time to generate the browser bundle and is
+   not included as runtime code in the generated bundle.
+   License: MIT
+
+The website loads the Syne, JetBrains Mono and Space Mono typefaces from Google
+Fonts. These fonts are available under the SIL Open Font License 1.1. If you
+self-host the site and want fully offline operation, download the fonts and
+include their OFL license files.
