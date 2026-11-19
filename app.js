@@ -564,11 +564,15 @@
 		const props = el.optMangleProps.checked;
 		el.optPropsRegex.disabled = !props;
 		el.optKeepQuoted.disabled = !props;
+		const propsGroup = el.optMangleProps.closest(".related-options");
+		if (propsGroup) propsGroup.classList.toggle("is-disabled", !props);
 
 		const map = el.optSourceMap.checked;
 		el.optMapUrl.disabled = !map;
 		el.optMapInline.disabled = !map;
 		el.optMapSources.disabled = !map;
+		const mapGroup = el.optSourceMap.closest(".related-options");
+		if (mapGroup) mapGroup.classList.toggle("is-disabled", !map);
 	}
 
 	function loadSample() {

@@ -124,11 +124,18 @@ console.log('Done:', result);"></textarea>
 				<div class="options-section">
 					<h3>Core options</h3>
 					<div class="option-list">
-						<label class="option-item">
+						<div class="related-options" data-related="comments"><div class="related-title">Comment handling</div><p class="related-note">Controls comment removal and preservation policy.</p><div class="related-body"><label class="option-item">
 							<input type="checkbox" id="optComments" checked="">
 							<span class="custom-check"></span>
 							<span class="option-text">Remove comments<small>Strip // line and /* */ block comments</small></span>
-						</label>
+						</label><label class="field-item">
+									<span>Comment policy<small>Remove / keep @license / keep all</small></span>
+									<select id="optCommentsMode">
+										<option value="none" selected="">Remove all</option>
+										<option value="some">Keep @license</option>
+										<option value="all">Keep all</option>
+									</select>
+								</label></div></div>
 						<label class="option-item">
 							<input type="checkbox" id="optWhitespace" checked="" disabled="">
 							<span class="custom-check"></span>
@@ -256,7 +263,7 @@ console.log('Done:', result);"></textarea>
 						</div>
 
 						<div>
-							<div class="option-group-title">Mangle</div>
+							<div class="option-group-title">Compression details</div>
 							<div class="option-grid-inner">
 								<label class="option-item">
 									<input type="checkbox" id="optDeadCode" checked="">
@@ -351,50 +358,43 @@ console.log('Done:', result);"></textarea>
 						</div>
 
 						<div>
-							<div class="option-group-title">Output</div>
+							<div class="option-group-title">Mangle</div>
 							<div class="option-grid-inner">
 								<label class="option-item">
 									<input type="checkbox" id="optKeepClassnames">
 									<span class="custom-check"></span>
 									<span class="option-text">Keep class names<small>Do not rename class names</small></span>
 								</label>
-								<label class="option-item">
+								<div class="related-options" data-related="properties"><div class="related-title">Property mangling</div><p class="related-note">The regex and quoted-property options apply only when property mangling is enabled.</p><div class="related-body"><label class="option-item">
 									<input type="checkbox" id="optMangleProps">
 									<span class="custom-check"></span>
 									<span class="option-text">Mangle property names<small>Only names matching the regex; may affect external callers</small></span>
-								</label>
-								<label class="field-item">
+								</label><label class="field-item">
 									<span>Property regex<small>e.g. ^_ to target underscore-prefixed names</small></span>
 									<input type="text" id="optPropsRegex" value="^_" spellcheck="false">
-								</label>
+								</label><label class="option-item">
+									<input type="checkbox" id="optKeepQuoted" checked="">
+									<span class="custom-check"></span>
+									<span class="option-text">Keep quoted properties<small>Do not rename o["x"] properties</small></span>
+								</label></div></div>
+								
 								<label class="field-item">
 									<span>Reserved names<small>Comma-separated; /regex/ supported</small></span>
 									<input type="text" id="optReserved" value="" placeholder="jQuery,$" spellcheck="false">
 								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optKeepQuoted" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Keep quoted properties<small>Do not rename o["x"] properties</small></span>
-								</label>
+								
 							</div>
 						</div>
 
 						<div>
-							<div class="option-group-title">Compatibility</div>
+							<div class="option-group-title">Output</div>
 							<div class="option-grid-inner">
 								<label class="option-item">
 									<input type="checkbox" id="optBeautify">
 									<span class="custom-check"></span>
 									<span class="option-text">Beautify output<small>Keep line breaks and indentation</small></span>
 								</label>
-								<label class="field-item">
-									<span>Comment policy<small>Remove / keep @license / keep all</small></span>
-									<select id="optCommentsMode">
-										<option value="none" selected="">Remove all</option>
-										<option value="some">Keep @license</option>
-										<option value="all">Keep all</option>
-									</select>
-								</label>
+								
 								<label class="field-item">
 									<span>Quote style<small>single / double / backtick</small></span>
 									<select id="optQuoteStyle">
@@ -479,7 +479,7 @@ console.log('Done:', result);"></textarea>
 						</div>
 
 						<div>
-							<div class="option-group-title">Parsing</div>
+							<div class="option-group-title">Compatibility</div>
 							<div class="option-grid-inner">
 								<label class="option-item">
 									<input type="checkbox" id="optIe8">
@@ -500,7 +500,7 @@ console.log('Done:', result);"></textarea>
 						</div>
 
 						<div>
-							<div class="option-group-title">Source map</div>
+							<div class="option-group-title">Parsing</div>
 							<div class="option-grid-inner">
 								<label class="field-item">
 									<span>Source type<small>script / module / unambiguous</small></span>
@@ -525,25 +525,25 @@ console.log('Done:', result);"></textarea>
 						<div>
 							<div class="option-group-title">Source Map</div>
 							<div class="option-grid-inner">
-								<label class="option-item">
+								<div class="related-options" data-related="sourcemap"><p class="related-note">Filename, inline and sources options apply only when source maps are enabled.</p><div class="related-body"><label class="option-item">
 									<input type="checkbox" id="optSourceMap">
 									<span class="custom-check"></span>
 									<span class="option-text">Generate source map<small>Output a downloadable .map file</small></span>
-								</label>
-								<label class="field-item">
+								</label><label class="field-item">
 									<span>Map filename<small>sourceMap.filename</small></span>
 									<input type="text" id="optMapUrl" value="output.min.js.map" spellcheck="false">
-								</label>
-								<label class="option-item">
+								</label><label class="option-item">
 									<input type="checkbox" id="optMapInline">
 									<span class="custom-check"></span>
 									<span class="option-text">Inline source map<small>Append as a data URI</small></span>
-								</label>
-								<label class="option-item">
+								</label><label class="option-item">
 									<input type="checkbox" id="optMapSources" checked="">
 									<span class="custom-check"></span>
 									<span class="option-text">Include sources<small>sourcesContent</small></span>
-								</label>
+								</label></div></div>
+								
+								
+								
 							</div>
 						</div>
 					</div>

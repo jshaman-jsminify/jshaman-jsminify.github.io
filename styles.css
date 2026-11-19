@@ -1991,3 +1991,50 @@ footer {
 		width: 100%;
 	}
 }
+
+/* related option groups */
+.related-options {
+	grid-column: 1 / -1;
+	padding: 12px;
+	border: 1px solid var(--border);
+	border-radius: 10px;
+	background: var(--bg-secondary);
+}
+
+.related-title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 4px;
+	color: var(--text-primary);
+	font-size: 12px;
+	font-weight: 700;
+}
+
+.related-note {
+	margin: 0 0 10px;
+	color: var(--text-muted);
+	font-size: 10.5px;
+	line-height: 1.5;
+}
+
+.related-body {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px 12px;
+}
+
+.related-body .option-item,
+.related-body .field-item {
+	margin: 0;
+}
+
+.related-options.is-disabled .related-body {
+	opacity: 0.55;
+}
+
+@media (max-width: 640px) {
+	.related-body {
+		grid-template-columns: 1fr;
+	}
+}
