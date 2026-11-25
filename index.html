@@ -1,1274 +1,444 @@
-<!DOCTYPE html><html lang="en"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JShaman-JSMinify — JavaScript Minifier &amp; Compressor</title>
-<meta name="description" content="A fast, browser-local JavaScript minifier with 38 compression optimizations, 70+ options, ES5–ES2022 output targets, CLI, Node API and build-tool plugins.">
-<meta name="keywords" content="JavaScript minify, JS compressor, online minifier, variable mangling, webpack plugin, rollup plugin, Vite plugin">
-<meta name="theme-color" content="#0a0e1a">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link rel="stylesheet" href="styles.css">
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="在线 JS 加密工具，支持多种 JavaScript 代码混淆、标准化与压缩选项。">
+  <meta name="theme-color" content="#07090f">
+  <title>在线JS加密｜免费JS代码加密工具</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
-<body id="top">
-<a class="skip-link" href="#tool">Skip to the minifier</a>
+<body class="visual-v2 is-loading">
+  <div class="page-loader" id="page-loader" role="status" aria-live="polite" aria-label="页面加载中">
+    <div class="loader-core" aria-hidden="true"><i></i><span>JS</span><b></b></div>
+    <div class="loader-copy"><strong>JS加密</strong><span>正在初始化本地加密引擎</span></div>
+    <div class="loader-track" aria-hidden="true"><i></i></div>
+    <small>LOCAL ENGINE / LOADING</small>
+  </div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="screen-grid" aria-hidden="true"></div>
+  <div class="pointer-halo" id="pointer-halo" aria-hidden="true"></div>
 
-<header>
-	<div class="header-inner">
-		<a class="logo" href="#tool" aria-label="JShaman-JSMinify home">
-			<span class="logo-icon" aria-hidden="true"><svg viewBox="0 0 40 40" focusable="false"><path d="M20.00 5.00 L21.00 5.11 L21.98 5.28 L22.94 5.52 L23.88 5.83 L24.79 6.19 L25.67 6.61 L26.52 7.08 L27.33 7.61 L28.09 8.19 L28.81 8.82 L29.49 9.49 L30.11 10.20 L30.69 10.94 L31.21 11.72 L31.67 12.53 L32.08 13.36 L32.42 14.21 L32.71 15.08 L32.94 15.96 L33.10 16.85 L33.21 17.75 L33.25 18.64 L33.24 19.53 L33.16 20.41 L33.03 21.28 L32.84 22.14 L32.60 22.97 L32.30 23.78 L31.95 24.57 L31.54 25.32 L31.10 26.04 L30.60 26.73 L30.07 27.38 L29.50 27.98 L28.89 28.55 L28.25 29.06 L27.58 29.53 L26.88 29.96 L26.16 30.33 L25.43 30.65 L24.67 30.92 L23.91 31.13 L23.14 31.29 L22.36 31.40 L21.59 31.46 L20.81 31.46 L20.04 31.42 L19.29 31.32 L18.54 31.17 L17.82 30.97 L17.11 30.73 L16.43 30.44 L15.77 30.11 L15.14 29.73 L14.54 29.32 L13.97 28.87 L13.44 28.39 L12.94 27.88 L12.49 27.34 L12.07 26.77 L11.70 26.18 L11.37 25.57 L11.08 24.95 L10.84 24.31 L10.65 23.66 L10.50 23.01 L10.39 22.35 L10.33 21.69 L10.32 21.03 L10.34 20.38 L10.42 19.74 L10.53 19.11 L10.69 18.49 L10.88 17.89 L11.12 17.31 L11.39 16.75 L11.69 16.21 L12.03 15.70 L12.40 15.22 L12.80 14.77 L13.22 14.35 L13.67 13.96 L14.14 13.61 L14.63 13.29 L15.13 13.01 L15.65 12.77 L16.17 12.56 L16.71 12.39 L17.25 12.26 L17.79 12.17 L18.33 12.11 L18.87 12.09 L19.41 12.11 L19.94 12.17 L20.46 12.26 L20.96 12.38 L21.45 12.54 L21.93 12.72 L22.39 12.94 L22.82 13.19 L23.24 13.46 L23.63 13.75 L23.99 14.07 L24.33 14.41 L24.65 14.77 L24.93 15.15 L25.18 15.54 L25.41 15.94 L25.60 16.35 L25.77 16.77 L25.90 17.19 L26.01 17.62 L26.08 18.05 L26.12 18.48 L26.13 18.90 L26.12 19.32 L26.07 19.74 L26.00 20.14 L25.90 20.53 L25.78 20.92 L25.63 21.28 L25.46 21.63 L25.27 21.97 L25.05 22.28 L24.82 22.58 L24.58 22.85 L24.31 23.11 L24.04 23.34 L23.75 23.55 L23.45 23.74 L23.15 23.90 L22.84 24.04 L22.52 24.15 L22.20 24.24 L21.89 24.31 L21.57 24.36 L21.25 24.38 L20.94 24.38 L20.64 24.35 L20.34 24.31 L20.05 24.25 L19.77 24.17 L19.50 24.07 L19.25 23.95 L19.00 23.82 L18.78 23.67 L18.56 23.51 L18.37 23.34 L18.18 23.15 L18.02 22.96 L17.87 22.76 L17.74 22.56 L17.63 22.35 L17.54 22.13 L17.46 21.92 L17.40 21.70 L17.36 21.49 L17.34 21.28 L17.33 21.07 L17.34 20.87" fill="none" stroke="#000" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="20" cy="20" r="2.2" fill="#000"></circle></svg></span>
-			<span class="logo-text">JShaman<span>-JSMinify</span></span>
-		</a>
-		<nav class="main-nav"><a href="#tool" class="active">Minify</a>
-			<a href="#features">Features</a>
-			<a href="#how-to">How it works</a>
-			<a href="#docs">Docs</a>
-			<a href="#plugins">Plugins</a>
-			<a href="#faq">FAQ</a>
-			<a href="#about">About</a></nav>
-		<div class="header-actions">
-			<button class="dark-toggle" id="darkToggle" type="button" title="Toggle dark / light mode" aria-label="Toggle dark / light mode">
-				<span class="dark-toggle-label">
-					<svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-						<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-					</svg>
-					<svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-						<circle cx="12" cy="12" r="5"></circle>
-						<line x1="12" y1="1" x2="12" y2="3"></line>
-						<line x1="12" y1="21" x2="12" y2="23"></line>
-						<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-						<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-						<line x1="1" y1="12" x2="3" y2="12"></line>
-						<line x1="21" y1="12" x2="23" y2="12"></line>
-						<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-						<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-					</svg>
-				</span>
-			</button>
-			<button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false">
-				<span></span><span></span><span></span>
-			</button>
-		</div>
-	</div>
-	<div class="mobile-nav" id="mobileNav"><a href="#tool">Minify</a>
-		<a href="#features">Features</a>
-		<a href="#how-to">How it works</a>
-		<a href="#docs">Docs</a>
-		<a href="#plugins">Plugins</a>
-		<a href="#faq">FAQ</a>
-		<a href="#about">About</a>
-		<a href="#cli">CLI</a></div>
-</header>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="JS加密首页">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="brand-name">JS加密<small>在线 JS 加密</small></span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      <a class="nav-link active" href="#workspace">JS加密工作台</a>
+      <a class="nav-link" href="#capabilities">功能说明</a>
+      <a class="nav-link" href="#plugins">插件</a>
+      <a class="nav-link" href="#tools">更多工具</a>
+      <a class="nav-link" href="#about">关于</a>
+    </nav>
+    <div class="system-status" aria-label="系统状态：可用">
+      <span class="status-dot"></span>
+      <span>ENGINE ONLINE</span>
+    </div>
+    <button class="menu-button" type="button" aria-label="打开菜单" aria-expanded="false">
+      <span></span><span></span>
+    </button>
+  </header>
 
-<main class="wrap">
+  <div class="signal-strip" aria-hidden="true">
+    <span><i></i>CLIENT-SIDE OBFUSCATION</span>
+    <span>AST MATRIX <b>ACTIVE</b></span>
+    <span>PAYLOAD CHANNEL <b>LOCAL</b></span>
+    <span class="signal-code">0x7F / JS / 2026</span>
+  </div>
 
-	<!-- ===== HERO ===== -->
-	<section class="hero"><div class="badge">⚡ Free online tool · Code stays in your browser</div>
-		<h1>JShaman<span>-JSMinify</span></h1>
-		<p>38 compression optimizations and 70+ configurable options: AST-level dead-code removal, variable and property mangling, function inlining, constant folding, and console / debugger cleanup. Typical projects shrink by 30%–70%; parse ES5–ES2022+ and pick an ES5 / ES2015 / ES2020 output target. Everything runs locally in your browser.</p>
-		<div class="hero-stats">
-		<div class="hero-stat"><strong>38</strong><span>optimizations</span></div>
-		<div class="hero-stat"><strong>70+</strong><span>options</span></div>
-		<div class="hero-stat"><strong>30–70%</strong><span>typical size cut</span></div>
-		<div class="hero-stat"><strong>100%</strong><span>browser-local</span></div>
-		</div></section>
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="hero-coordinate"><span>X:22.319</span><i></i><span>Y:114.08</span></div>
+        <div class="eyebrow"><span>JAVASCRIPT DEFENSE SYSTEM</span><b>V3.7.1</b></div>
+        <h1 id="hero-title"><span>代码，</span><br><em>无迹可循。</em></h1>
+        <p>面向现代前端工程的 JavaScript 混淆工作台。重组变量、字符串与执行结构，在浏览器内完成多层代码防护。</p>
+        <div class="hero-actions">
+          <a class="hero-primary" href="#workspace">
+            <span>进入JS加密工作台</span>
+            <svg viewBox="0 0 22 22" aria-hidden="true"><path d="M4 11h13M13 6l5 5-5 5"/></svg>
+          </a>
+          <a class="hero-secondary" href="#capabilities"><span>查看防护能力</span><i>↓</i></a>
+        </div>
+        <div class="hero-specs" aria-label="工具特性">
+          <div><strong>15</strong><span>PROTECTION<br>MODULES</span></div>
+          <div><strong>0</strong><span>SERVER<br>UPLOADS</span></div>
+          <div><strong>&lt;1s</strong><span>LOCAL<br>PIPELINE</span></div>
+        </div>
+      </div>
+      <div class="reactor" id="reactor" aria-hidden="true">
+        <div class="reactor-scope"></div>
+        <div class="reactor-ring ring-a"><span></span><i></i></div>
+        <div class="reactor-ring ring-b"><span></span><i></i><b></b></div>
+        <div class="reactor-ring ring-c"></div>
+        <div class="reactor-core">
+          <span class="core-bracket">{</span>
+          <strong>JS</strong>
+          <span class="core-bracket">}</span>
+          <i></i>
+        </div>
+        <div class="reactor-tag tag-a"><span>NODE_07</span><b>VARIABLE ENTROPY</b></div>
+        <div class="reactor-tag tag-b"><span>NODE_12</span><b>STRING CIPHER</b></div>
+        <div class="reactor-tag tag-c"><span>OUTPUT</span><b>INTEGRITY 98.7</b></div>
+        <div class="reactor-code code-a"><b>0xA91F</b><span>function(_0x2a){</span></div>
+        <div class="reactor-code code-b"><span>flow_control</span><b>SECURED</b></div>
+        <div class="reactor-readout">
+          <div><span>OBFUSCATION CORE</span><b>ONLINE</b></div>
+          <i><em></em></i>
+          <div><span>ENTROPY</span><strong id="entropy-readout">92.8%</strong></div>
+        </div>
+        <div class="corner corner-tl"></div><div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div><div class="corner corner-br"></div>
+      </div>
+      <div class="hero-watermark" aria-hidden="true">OBFUSCATE<span>/</span>PROTECT<span>/</span>DEPLOY</div>
+      <div class="hero-data-rail" aria-hidden="true">
+        <span>RUNTIME</span><i></i><span>ECMASCRIPT</span><i></i><span>LOCAL-FIRST</span>
+      </div>
+    </section>
 
-	<!-- ===== TOOL ===== -->
-	<section id="tool">
-		<div class="tool-card">
-			<div class="tool-card-header">
-				<span class="tool-card-title">JavaScript source</span>
-				<span class="char-count" id="inputCount">0 characters</span>
-			</div>
-			<textarea class="css-textarea" id="jsInput" spellcheck="false" autocomplete="off" placeholder="// Paste JavaScript here...
-function greet(name) {
-	const message = 'Hello, ' + name + '!';
-	console.log(message);
-	return message;
-}
+    <section class="workspace-section" id="workspace" aria-labelledby="workspace-title">
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">ENCRYPTION WORKSPACE</span>
+          <h2 id="workspace-title">JS代码加密工作台</h2>
+        </div>
+        <p>粘贴或导入 JavaScript，选择保护策略，然后生成混淆结果。</p>
+      </div>
 
-const result = greet('World');
-console.log('Done:', result);"></textarea>
-			<div class="source-actions">
-				<button class="btn-secondary small" id="resetBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-						<polyline points="1 4 1 10 7 10"></polyline>
-						<path d="M3.51 15a9 9 0 1 0 .49-3.54"></path>
-					</svg>Reset</button>
-				<button class="btn-secondary small" id="sampleBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-						<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-						<polyline points="14 2 14 8 20 8"></polyline>
-					</svg>Load sample</button>
-				<button class="btn-secondary small" id="openFileBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-						<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-					</svg>Open file</button>
-				<input type="file" id="fileInput" accept=".js,.mjs,.cjs,.txt,text/javascript,application/javascript" hidden="">
-			</div>
-		</div>
+      <div class="workspace-shell">
+        <div class="workspace-bar">
+          <div class="workspace-id"><span>SESSION</span><b id="session-id">7A3F—D91C</b></div>
+          <div class="workspace-pipeline" aria-label="处理流程">
+            <span class="done">01 INPUT</span><i></i><span class="current">02 CONFIG</span><i></i><span>03 OUTPUT</span>
+          </div>
+          <div class="privacy"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6.5 8V6.2a3.5 3.5 0 017 0V8M5 8h10v8H5z"/></svg> LOCAL PROCESS</div>
+        </div>
 
-		<div class="tool-card options-card collapsed" id="optionsCard">
-			<div class="tool-card-header">
-				<span class="tool-card-title">Minify options</span>
-				<div class="tool-card-header-right">
-					<span class="char-count">Conservative defaults</span>
-					<button class="options-config" id="saveConfig" type="button">Save config</button>
-					<button class="options-config" id="loadConfig" type="button">Load config</button>
-					<input type="file" id="configInput" accept=".json,application/json" hidden="">
-					<button class="options-collapse" id="optionsCollapse" type="button" aria-expanded="false" aria-controls="optionsGrid">
-						<span id="optionsCollapseLabel">Expand options</span>
-						<span class="options-chevron" aria-hidden="true">▾</span>
-					</button>
-				</div>
-			</div>
+        <div class="workspace-grid">
+          <div class="editors">
+            <article class="editor-panel" id="input-panel">
+              <div class="editor-head">
+                <div class="editor-title"><span class="file-dot source"></span><strong>源代码</strong><small>SOURCE.JS</small></div>
+                <div class="editor-actions">
+                  <button type="button" id="clear-btn">清空</button>
+                  <button type="button" id="upload-btn">导入文件</button>
+                  <input id="file-input" type="file" accept=".js,.mjs,.cjs,.txt" hidden>
+                </div>
+              </div>
+              <div class="code-wrap">
+                <div class="line-numbers" id="input-lines" aria-hidden="true">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+                <textarea id="code" aria-label="JS源代码" spellcheck="false">(function () {
+  const domain = "jsjiami.github.io";
+  const fromYear = 2017;
+  const copyright = function () {
+    return `(c)${fromYear}-${new Date().getFullYear()},${domain}`;
+  };
+  console.log(copyright());
+})();</textarea>
+              </div>
+              <div class="editor-foot"><span><i></i>READY</span><span id="source-stats">8 LINES · 218 CHARS</span></div>
+            </article>
 
-			<div class="options-grid advanced-open" id="optionsGrid">
-				<div class="options-section">
-					<h3>Core options</h3>
-					<div class="option-list">
-						<div class="related-options" data-related="comments"><div class="related-title">Comment handling</div><p class="related-note">Controls comment removal and preservation policy.</p><div class="related-body"><label class="option-item">
-							<input type="checkbox" id="optComments" checked="">
-							<span class="custom-check"></span>
-							<span class="option-text">Remove comments<small>Strip // line and /* */ block comments</small></span>
-						</label><label class="field-item">
-									<span>Comment policy<small>Remove / keep @license / keep all</small></span>
-									<select id="optCommentsMode">
-										<option value="none" selected="">Remove all</option>
-										<option value="some">Keep @license</option>
-										<option value="all">Keep all</option>
-									</select>
-								</label></div></div>
-						<label class="option-item">
-							<input type="checkbox" id="optWhitespace" checked="" disabled="">
-							<span class="custom-check"></span>
-							<span class="option-text">Collapse whitespace<small>Compress indentation, spaces and line breaks (always on)</small></span>
-						</label>
-						<label class="option-item">
-							<input type="checkbox" id="optConsole">
-							<span class="custom-check"></span>
-							<span class="option-text">Drop console calls<small>Remove console.log / warn / error / info</small></span>
-						</label>
-						<label class="option-item">
-							<input type="checkbox" id="optDebugger" checked="">
-							<span class="custom-check"></span>
-							<span class="option-text">Drop debugger<small>Remove all debugger statements</small></span>
-						</label>
-						<label class="option-item">
-							<input type="checkbox" id="optSemicolons">
-							<span class="custom-check"></span>
-							<span class="option-text">Omit optional semicolons<small>Only where automatic semicolon insertion is safe</small></span>
-						</label>
-						<label class="option-item">
-							<input type="checkbox" id="optMangle" checked="">
-							<span class="custom-check"></span>
-							<span class="option-text">Mangle variables / functions<small>Assign short names by character frequency; local scope only</small></span>
-						</label>
-						<label class="option-item">
-							<input type="checkbox" id="optUnused" checked="">
-							<span class="custom-check"></span>
-							<span class="option-text">Drop unused code<small>Remove unreferenced functions, variables and side-effect-free statements</small></span>
-						</label>
-						<label class="option-item">
-							<input type="checkbox" id="optReport" checked="">
-							<span class="custom-check"></span>
-							<span class="option-text">Generate optimization report<small>List removals, inlining and renames below the result</small></span>
-						</label>
-					</div>
-				</div>
+            <article class="editor-panel result-panel" id="result-panel">
+              <div class="editor-head">
+                <div class="editor-title"><span class="file-dot result"></span><strong>加密结果</strong><small>OUTPUT.JS</small></div>
+                <div class="editor-actions">
+                  <button type="button" id="copy-btn">复制</button>
+                  <button type="button" id="save-btn">保存文件</button>
+                </div>
+              </div>
+              <div class="code-wrap">
+                <div class="line-numbers" id="output-lines" aria-hidden="true">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+                <textarea id="encode" aria-label="JS加密结果" readonly spellcheck="false"></textarea>
+                <div class="result-empty" id="result-empty" aria-hidden="true">
+                  <div class="empty-orbit"><span></span><i></i></div>
+                  <strong>等待加密任务</strong>
+                  <small>配置选项后启动引擎</small>
+                </div>
+              </div>
+              <div class="editor-foot"><span><i></i><b id="result-status">STANDBY</b></span><span id="result-stats">NO OUTPUT</span></div>
+            </article>
+          </div>
 
-				<div class="options-section">
-					<h3>Advanced options</h3>
-					<button class="advanced-toggle open" id="advancedToggle" type="button" aria-expanded="true">
-						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-							<circle cx="12" cy="12" r="3"></circle>
-							<path d="M19.07 4.93A10 10 0 0 0 12 2"></path>
-							<path d="M4.93 19.07A10 10 0 0 0 12 22"></path>
-						</svg>
-						<span id="advancedLabel">Hide advanced options</span>
-						<span class="toggle-arrow">▼</span>
-					</button>
+          <aside class="config-panel" aria-labelledby="config-title">
+            <button class="encrypt-button encrypt-button-top" id="obfuscate" type="button">
+              <span class="button-grid" aria-hidden="true"></span>
+              <span class="button-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11V8a4 4 0 018 0v3M6 11h12v9H6zM12 14v3"/></svg><b>启动 JS 加密</b></span>
+              <span class="button-arrow">↗</span>
+            </button>
+            <div class="config-head">
+              <div><span>PROTECTION MATRIX</span><h3 id="config-title">加密选项</h3></div>
+              <button type="button" id="reset-options">恢复默认</button>
+            </div>
+            <div class="cn-preset-control" aria-label="加密配置">
+              <button type="button" data-preset="light">轻度</button>
+              <button type="button" data-preset="balanced" class="active">均衡</button>
+              <button type="button" data-preset="maximum">最强</button>
+            </div>
+            <div class="cn-profile-card">
+              <div class="cn-score-orb"><span id="profile-score">70</span><small>%</small></div>
+              <div class="cn-profile-copy"><span>PROTECTION SCORE</span><strong id="profile-label">均衡</strong><small id="profile-description">推荐用于网页发布</small></div>
+              <div class="cn-profile-stat"><span>ACTIVE MODULES</span><strong id="module-count">10 / 15</strong></div>
+              <div class="cn-profile-stat"><span>SIZE IMPACT</span><strong id="size-impact">+18%</strong></div>
+            </div>
+            <div class="option-list">
+              <label class="option-item">
+                <input id="stringArray" type="checkbox" name="option" value="stringArray" checked>
+                <span class="switch"><i></i></span><span class="option-copy"><strong>字符串数组</strong><small>将字符串集中到运行时数组</small></span>
+              </label>
+              <label class="option-item">
+                <input id="stringReverse" type="checkbox" name="option" value="stringReverse" checked>
+                <span class="switch"><i></i></span><span class="option-copy"><strong>字符串颠倒</strong><small>运行时恢复字符串顺序</small></span>
+              </label>
+              <label class="option-item">
+                <input id="stringUnicode" type="checkbox" name="option" value="stringUnicode" checked>
+                <span class="switch"><i></i></span><span class="option-copy"><strong>字符串 Unicode</strong><small>转义为 Unicode 序列</small></span>
+              </label>
+              <label class="option-item">
+                <input id="memberExpression" type="checkbox" name="option" value="memberExpression" checked>
+                <span class="switch"><i></i></span><span class="option-copy"><strong>成员表达式</strong><small>点访问转方括号访问</small></span>
+              </label>
+              <label class="option-item">
+                <input id="numericLiteral" type="checkbox" name="option" value="numericLiteral" checked>
+                <span class="switch"><i></i></span><span class="option-copy"><strong>数值字面量</strong><small>将小整数编码为表达式</small></span>
+              </label>
+              <label class="option-item">
+                <input id="binaryExpression" type="checkbox" name="option" value="binaryExpression" checked>
+                <span class="switch"><i></i></span><span class="option-copy"><strong>二元表达式</strong><small>将二元表达式包裹为函数调用</small></span>
+              </label>
+              <label class="option-item">
+                <input id="booleanLiteral" type="checkbox" name="option" value="booleanLiteral" checked>
+                <span class="switch"><i></i></span><span class="option-copy"><strong>布尔字面量</strong><small>用一元表达式替换布尔值</small></span>
+              </label>
+              <label class="option-item">
+                <input id="assignmentJunk" type="checkbox" name="option" value="assignmentJunk" checked>
+                <span class="switch"><i></i></span><span class="option-copy"><strong>赋值混淆</strong><small>将字面量赋值包裹为函数调用</small></span>
+              </label>
+              <label class="option-item">
+                <input id="zombieCode" type="checkbox" name="option" value="zombieCode" checked>
+                <span class="switch"><i></i></span><span class="option-copy"><strong>僵尸代码</strong><small>插入无效逻辑干扰分析</small></span>
+              </label>
+              <label class="option-item">
+                <input id="controlFlow" type="checkbox" name="option" value="controlFlow">
+                <span class="switch"><i></i></span><span class="option-copy"><strong>控制流平坦化</strong><small>将语句顺序打乱为分发器</small></span>
+              </label>
+              <label class="option-item">
+                <input id="eval" type="checkbox" name="option" value="eval">
+                <span class="switch"><i></i></span><span class="option-copy"><strong>Eval 编码</strong><small>用 eval 编码表达式（注意 CSP）</small></span>
+              </label>
+              <label class="option-item">
+                <input id="renameGlobals" type="checkbox" name="option" value="renameGlobals">
+                <span class="switch"><i></i></span><span class="option-copy"><strong>全局变量重命名</strong><small>重命名顶层标识符（API 风险）</small></span>
+              </label>
+              <label class="option-item">
+                <input id="renameLocals" type="checkbox" name="option" value="renameLocals" checked>
+                <span class="switch"><i></i></span><span class="option-copy"><strong>局部变量重命名</strong><small>重命名函数内标识符</small></span>
+              </label>
+              <label class="option-item">
+                <input id="comments" type="checkbox" name="option" value="comments">
+                <span class="switch"><i></i></span><span class="option-copy"><strong>保留代码注释</strong><small>输出中保留原始注释</small></span>
+              </label>
+              <label class="option-item">
+                <input id="compact" type="checkbox" name="option" value="compact">
+                <span class="switch"><i></i></span><span class="option-copy"><strong>压缩代码</strong><small>移除冗余空白以缩小体积</small></span>
+              </label>
+            </div>
+          </aside>
+        </div>
+      </div>
+      <p class="workspace-note"><span>●</span> 提示：混淆用于提高代码阅读与逆向门槛，不等同于绝对安全。重要密钥与核心逻辑请始终放在服务端。</p>
+    </section>
 
-					<div class="advanced-options open" id="advancedOptions">
-						<div>
-							<div class="option-group-title">Compression</div>
-							<div class="option-grid-inner">
-								<label class="option-item">
-									<input type="checkbox" id="optToplevel">
-									<span class="custom-check"></span>
-									<span class="option-text">Process top-level scope<small>Also compress / mangle top-level (global) names</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optUnusedToplevel">
-									<span class="custom-check"></span>
-									<span class="option-text">Drop unused top-level code<small>Remove unreferenced top-level functions and variables</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optInline" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Inline simple functions<small>Inline single-use functions with a single return</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optHoistFuns">
-									<span class="custom-check"></span>
-									<span class="option-text">Hoist function declarations<small>Move function declarations to the top of their scope</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optHoistVars">
-									<span class="custom-check"></span>
-									<span class="option-text">Hoist var declarations<small>Merge nested var declarations into the function top</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optKeepFargs" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Keep function arguments<small>Do not remove unused parameters (safer)</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optBooleans" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Compress booleans<small>true → !0, false → !1</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optUnsafeUndefined">
-									<span class="custom-check"></span>
-									<span class="option-text">Unsafe undefined<small>Replace undefined references with void 0</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optUnsafeMath">
-									<span class="custom-check"></span>
-									<span class="option-text">Aggressive math<small>Rewrite Math.pow / ** as multiplication (unsafe)</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optUnsafeProto">
-									<span class="custom-check"></span>
-									<span class="option-text">Unsafe prototype access<small>Rewrite prototype access (unsafe)</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optUnsafeRegexp">
-									<span class="custom-check"></span>
-									<span class="option-text">Regexp literals<small>Convert RegExp constructors to literals</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optPureGetters">
-									<span class="custom-check"></span>
-									<span class="option-text">Pure getters<small>Allow removing property reads through pure getters (unsafe)</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optArrows">
-									<span class="custom-check"></span>
-									<span class="option-text">Arrow callbacks<small>Convert function callbacks to arrows (ES6+, opt-in)</small></span>
-								</label>
-								<label class="field-item">
-									<span>Compression passes<small>More passes can inline and fold further</small></span>
-									<input type="number" id="optPasses" value="2" min="1" max="10" step="1">
-								</label>
-							</div>
-						</div>
+    <section class="capabilities" id="capabilities" aria-labelledby="capabilities-title">
+      <div class="capability-intro">
+        <span class="section-kicker">DESIGNED FOR CLARITY</span>
+        <h2 id="capabilities-title">复杂处理，<br>保持简单。</h2>
+        <p>把繁琐的代码保护策略集中在一个清晰的工作流中。无需配置环境，打开即可使用。</p>
+      </div>
+      <div class="capability-grid">
+        <article><span class="cap-icon">⌁</span><small>IN-BROWSER</small><h3>本地处理</h3><p>所有输入与转换均在当前浏览器中完成，代码无需上传服务器。</p></article>
+        <article><span class="cap-icon">◫</span><small>MULTI-LAYER</small><h3>多重策略</h3><p>从变量名到字符串与表达式，多维度提高源代码的分析门槛。</p></article>
+        <article><span class="cap-icon">⇩</span><small>ZERO SETUP</small><h3>即用即走</h3><p>导入、加密、复制或保存，整个流程无需安装任何依赖。</p></article>
+      </div>
+    </section>
 
-						<div>
-							<div class="option-group-title">Compression details</div>
-							<div class="option-grid-inner">
-								<label class="option-item">
-									<input type="checkbox" id="optDeadCode" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Drop unreachable code<small>Code after return / throw</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optSideEffects" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Drop side-effect-free statements<small>Pure expressions and unused literals</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optJoinVars" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Join variable declarations<small>Merge adjacent var / let / const declarations</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optSequences" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Join expression statements<small>Merge consecutive statements into comma expressions</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optIfReturn" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Merge if / return<small>Reduce return branches</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optAssignments" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Simplify assignments<small>Merge assignments and increment expressions</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optDirectives" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Deduplicate directives<small>Merge repeated use strict directives</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optLoops" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Simplify loops<small>while(true), for(;;), do-while(false)</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optSwitches" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Simplify switch<small>Trailing break; simple switch to if</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optArguments" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Rewrite arguments<small>arguments[0] → parameter name</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optPropertySimplify" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Simplify property access<small>o["a"] → o.a; unquote object keys</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optEmptyStatement" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Drop empty statements<small>Empty statements and empty else branches</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optConditionals" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Simplify conditionals<small>if → ternary / short-circuit</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optInlineLiterals" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Inline constant references<small>Replace constants at their use sites</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optCollapseVars" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Collapse variables<small>Merge single-use variables into their use sites</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optReduceVars" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Propagate variables<small>Propagate single-assignment constants</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optEvaluate" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Constant folding<small>1 + 2 → 3, and similar expressions</small></span>
-								</label>
-								<label class="field-item">
-									<span>Pure functions<small>Comma-separated calls that may be removed</small></span>
-									<input type="text" id="optPureFuncs" value="" placeholder="console.log,$.noop" spellcheck="false">
-								</label>
-							</div>
-						</div>
-
-						<div>
-							<div class="option-group-title">Mangle</div>
-							<div class="option-grid-inner">
-								<label class="option-item">
-									<input type="checkbox" id="optKeepClassnames">
-									<span class="custom-check"></span>
-									<span class="option-text">Keep class names<small>Do not rename class names</small></span>
-								</label>
-								<div class="related-options" data-related="properties"><div class="related-title">Property mangling</div><p class="related-note">The regex and quoted-property options apply only when property mangling is enabled.</p><div class="related-body"><label class="option-item">
-									<input type="checkbox" id="optMangleProps">
-									<span class="custom-check"></span>
-									<span class="option-text">Mangle property names<small>Only names matching the regex; may affect external callers</small></span>
-								</label><label class="field-item">
-									<span>Property regex<small>e.g. ^_ to target underscore-prefixed names</small></span>
-									<input type="text" id="optPropsRegex" value="^_" spellcheck="false">
-								</label><label class="option-item">
-									<input type="checkbox" id="optKeepQuoted" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Keep quoted properties<small>Do not rename o["x"] properties</small></span>
-								</label></div></div>
-								
-								<label class="field-item">
-									<span>Reserved names<small>Comma-separated; /regex/ supported</small></span>
-									<input type="text" id="optReserved" value="" placeholder="jQuery,$" spellcheck="false">
-								</label>
-								
-							</div>
-						</div>
-
-						<div>
-							<div class="option-group-title">Output</div>
-							<div class="option-grid-inner">
-								<label class="option-item">
-									<input type="checkbox" id="optBeautify">
-									<span class="custom-check"></span>
-									<span class="option-text">Beautify output<small>Keep line breaks and indentation</small></span>
-								</label>
-								
-								<label class="field-item">
-									<span>Quote style<small>single / double / backtick</small></span>
-									<select id="optQuoteStyle">
-										<option value="default" selected="">Default</option>
-										<option value="single">single</option>
-										<option value="double">double</option>
-										<option value="backtick">backtick</option>
-									</select>
-								</label>
-								<label class="field-item">
-									<span>Output target<small>Downlevel syntax to an ES version; ES5 adds helpers</small></span>
-									<select id="optTarget">
-										<option value="esnext" selected="">ESNext (no transform)</option>
-										<option value="es2022">ES2022</option>
-										<option value="es2021">ES2021</option>
-										<option value="es2020">ES2020</option>
-										<option value="es2019">ES2019</option>
-										<option value="es2018">ES2018</option>
-										<option value="es2017">ES2017</option>
-										<option value="es2016">ES2016</option>
-										<option value="es2015">ES2015</option>
-										<option value="es5">ES5</option>
-									</select>
-								</label>
-								<label class="field-item">
-									<span>Max line length<small>0 = unlimited</small></span>
-									<input type="number" id="optWidth" value="0" min="0" step="10">
-								</label>
-								<label class="field-item">
-									<span>Extra indent spaces<small>indent_start</small></span>
-									<input type="number" id="optIndentStart" value="0" min="0" step="2">
-								</label>
-								<label class="field-item">
-									<span>Initial indent level<small>indent_level; 4 spaces per level</small></span>
-									<input type="number" id="optIndentLevel" value="0" min="0" step="1">
-								</label>
-								<label class="field-item">
-									<span>File header<small>preamble, prepended to output</small></span>
-									<input type="text" id="optPreamble" value="" placeholder="/* build: 2026 */" spellcheck="false">
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optWrapIife">
-									<span class="custom-check"></span>
-									<span class="option-text">Wrap IIFE in parentheses<small>wrap_iife</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optAsciiOnly">
-									<span class="custom-check"></span>
-									<span class="option-text">ASCII only<small>Escape non-ASCII characters</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optInlineScript">
-									<span class="custom-check"></span>
-									<span class="option-text">Escape <small>Safe for inline HTML</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optShebang" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Keep shebang<small>Keep the first #!/usr/bin/env node line</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optPreserveLine">
-									<span class="custom-check"></span>
-									<span class="option-text">Preserve line numbers<small>Useful for debugging</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optBraces">
-									<span class="custom-check"></span>
-									<span class="option-text">Add braces<small>Wrap single-statement if / loop bodies</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optQuoteKeys">
-									<span class="custom-check"></span>
-									<span class="option-text">Quote object keys<small>quote_keys</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optKeepQuotedProps">
-									<span class="custom-check"></span>
-									<span class="option-text">Keep object key quotes<small>keep_quoted_props</small></span>
-								</label>
-							</div>
-						</div>
-
-						<div>
-							<div class="option-group-title">Compatibility</div>
-							<div class="option-grid-inner">
-								<label class="option-item">
-									<input type="checkbox" id="optIe8">
-									<span class="custom-check"></span>
-									<span class="option-text">IE8 compatibility<small>catch parameter / named function expressions / reserved properties</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optSafari10">
-									<span class="custom-check"></span>
-									<span class="option-text">Safari 10/11 compatibility<small>Do not rename loop-head let / const</small></span>
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optWebkit">
-									<span class="custom-check"></span>
-									<span class="option-text">WebKit compatibility<small>Loop scope + function expression parentheses</small></span>
-								</label>
-							</div>
-						</div>
-
-						<div>
-							<div class="option-group-title">Parsing</div>
-							<div class="option-grid-inner">
-								<label class="field-item">
-									<span>Source type<small>script / module / unambiguous</small></span>
-									<select id="optSourceType">
-										<option value="unambiguous" selected="">Unambiguous</option>
-										<option value="script">Script</option>
-										<option value="module">Module</option>
-									</select>
-								</label>
-								<label class="field-item">
-									<span>Parser plugins<small>Comma-separated, e.g. jsx,typescript</small></span>
-									<input type="text" id="optPlugins" value="" placeholder="jsx,typescript" spellcheck="false">
-								</label>
-								<label class="option-item">
-									<input type="checkbox" id="optExpression">
-									<span class="custom-check"></span>
-									<span class="option-text">Expression mode<small>Parse input as a single expression</small></span>
-								</label>
-							</div>
-						</div>
-
-						<div>
-							<div class="option-group-title">Source Map</div>
-							<div class="option-grid-inner">
-								<div class="related-options" data-related="sourcemap"><p class="related-note">Filename, inline and sources options apply only when source maps are enabled.</p><div class="related-body"><label class="option-item">
-									<input type="checkbox" id="optSourceMap">
-									<span class="custom-check"></span>
-									<span class="option-text">Generate source map<small>Output a downloadable .map file</small></span>
-								</label><label class="field-item">
-									<span>Map filename<small>sourceMap.filename</small></span>
-									<input type="text" id="optMapUrl" value="output.min.js.map" spellcheck="false">
-								</label><label class="option-item">
-									<input type="checkbox" id="optMapInline">
-									<span class="custom-check"></span>
-									<span class="option-text">Inline source map<small>Append as a data URI</small></span>
-								</label><label class="option-item">
-									<input type="checkbox" id="optMapSources" checked="">
-									<span class="custom-check"></span>
-									<span class="option-text">Include sources<small>sourcesContent</small></span>
-								</label></div></div>
-								
-								
-								
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="actions-bar">
-				<button class="btn-primary" id="minifyBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-						<polyline points="4 14 10 14 10 20"></polyline>
-						<polyline points="20 10 14 10 14 4"></polyline>
-						<line x1="14" y1="10" x2="21" y2="3"></line>
-						<line x1="3" y1="21" x2="10" y2="14"></line>
-					</svg>Minify JavaScript</button>
-			</div>
-			<div class="message" id="message" role="status" aria-live="polite" hidden=""></div>
-		</div>
-
-		<div id="resultSection" hidden="">
-			<div class="result-card">
-				<div class="result-header">
-					<div class="result-meta">
-						<div class="stat-badge">
-							<span class="stat-label">Original:</span>
-							<span class="stat-value" id="origSize">-</span>
-						</div>
-						<div class="stat-badge">
-							<span class="stat-label">Minified:</span>
-							<span class="stat-value" id="compSize">-</span>
-						</div>
-						<div class="stat-badge saving">
-							<span class="stat-label">Saved:</span>
-							<span class="stat-value" id="savingPct">-</span>
-						</div>
-						<div class="stat-badge">
-							<span class="stat-label">Time:</span>
-							<span class="stat-value" id="costTime">-</span>
-						</div>
-					</div>
-					<div class="result-actions">
-						<button class="btn-icon" id="copyBtn" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-								<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-								<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-							</svg>Copy code</button>
-					</div>
-				</div>
-				<div class="compression-bar-wrap">
-					<div class="compression-bar-label">
-						<span>Size reduction</span>
-						<span id="barLabel">0%</span>
-					</div>
-					<div class="compression-bar">
-						<div class="compression-bar-fill" id="compBar" style="width:0%"></div>
-					</div>
-				</div>
-				<textarea class="result-output" id="jsOutput" readonly="" spellcheck="false"></textarea>
-				<div class="result-footer">
-					<button class="btn-icon" id="downloadBtn" type="button">Download .js</button>
-					<button class="btn-icon" id="downloadMapBtn" type="button" disabled="">Download .map</button>
-					<span class="char-count" id="outputCount">0 characters</span>
-				</div>
-				<details class="reports" id="reportsBox" hidden="">
-					<summary>Optimization details <span id="reportCount"></span></summary>
-					<ul id="reportsList"></ul>
-				</details>
-			</div>
-		</div>
-	</section>
-
-	<!-- ===== FEATURES ===== -->
-	<section class="section" id="features">
-		<div class="section-header">
-			<div class="section-tag">Why JShaman-JSMinify</div>
-			<h2>Why choose JShaman-JSMinify</h2>
-			<p>Not a regex replacement: a complete Babel-AST minification pipeline that balances size, safety and modern syntax.</p>
-		</div>
-		<div class="features-grid">
-			<div class="feature-card">
-				<div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 9h8M8 13h5"></path></svg></div>
-				<h3>Comment &amp; whitespace cleanup</h3>
-				<p>Remove // and /* */ comments, collapse indentation, spaces and line breaks while preserving strings and template literals.</p>
-			</div>
-			<div class="feature-card">
-				<div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="m7 9 3 3-3 3M13 15h4"></path></svg></div>
-				<h3>console / debugger removal</h3>
-				<p>Remove console.log, warn, error and leftover debugger statements when those options are enabled.</p>
-			</div>
-			<div class="feature-card">
-				<div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7V4h16v3M9 20h6M12 4v16"></path></svg></div>
-				<h3>Variable, function and property mangling</h3>
-				<p>Assign short names by character frequency, with top-level renaming, reserved lists, class-name protection and property-regex mangling.</p>
-			</div>
-			<div class="feature-card">
-				<div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2"></circle><circle cx="18" cy="6" r="2"></circle><circle cx="12" cy="18" r="2"></circle><path d="M8 6h8M7 8l4 8M17 8l-4 8"></path></svg></div>
-				<h3>AST-level optimization</h3>
-				<p>Remove unreachable code, merge declarations and expressions, fold constants, inline single-use variables and simple functions, and turn ifs into ternaries or short-circuits.</p>
-			</div>
-			<div class="feature-card">
-				<div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="8" rx="4"></rect><circle cx="8" cy="12" r="2.5"></circle></svg></div>
-				<h3>Boolean and expression compression</h3>
-				<p>true → !0, false → !1, undefined → void 0, plus optional Math.pow / ** rewrites.</p>
-			</div>
-			<div class="feature-card">
-				<div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"></path></svg></div>
-				<h3>ES5 to ES2022+</h3>
-				<p>Parse modern syntax and optionally downlevel the output to ES5, ES2015, ES2020 or another target.</p>
-			</div>
-			<div class="feature-card">
-				<div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3 3 6v15l6-3 6 3 6-3V3l-6 3-6-3z"></path><path d="M9 3v15M15 6v15"></path></svg></div>
-				<h3>Source maps and nameCache</h3>
-				<p>Generate, inline and chain source maps; keep renaming stable across builds with nameCache.</p>
-			</div>
-			<div class="feature-card">
-				<div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"></path><path d="m9 12 2 2 4-4"></path></svg></div>
-				<h3>100% browser-local</h3>
-				<p>Online minification runs entirely in your browser; code is never uploaded. CLI and plugins run locally in your build.</p>
-			</div>
-		</div>
-	</section>
-
-	<!-- ===== HOW TO ===== -->
-	<section class="section" id="how-to">
-		<div class="section-header">
-			<div class="section-tag">How it works</div>
-			<h2>Minify JavaScript in five steps</h2>
-			<p>No install or sign-up required. Open the page and minify; add the CLI or a build plugin when you need automation.</p>
-		</div>
-		<div class="howto-grid">
-			<div class="howto-step">
-				<h3>Paste or open code</h3>
-				<p>Paste JavaScript above, click “Open file” to choose a .js file, or drag a file into the editor.</p>
-			</div>
-			<div class="howto-step">
-				<h3>Choose core options</h3>
-				<p>Comments and debugger statements are removed by default; variable mangling and unused-code removal are on. Turn off anything you do not need.</p>
-			</div>
-			<div class="howto-step">
-				<h3>Open advanced options</h3>
-				<p>Configure top-level mangling, property mangling, output format, compatibility modes and source maps.</p>
-			</div>
-			<div class="howto-step">
-				<h3>Click “Minify JavaScript”</h3>
-				<p>Minification runs locally. The result shows original size, minified size, savings, time and an optimization report.</p>
-			</div>
-			<div class="howto-step">
-				<h3>Copy or download</h3>
-				<p>Copy the result or download .js; when source maps are enabled you can download the .map file too.</p>
-			</div>
-		</div>
-	</section>
-
-	<!-- ===== SEO / ABOUT ===== -->
-	<section class="section">
-		<div class="seo-section" id="overview"><h2>JavaScript minification, without the upload</h2>
-<p>JShaman-JSMinify is a free, fast, local JavaScript minifier. Whether you are shipping a personal project, a React app, a Node.js service or a large enterprise frontend, reducing JavaScript size is one of the most direct performance wins.</p>
-<h3>What is JavaScript minification?</h3>
-<p>Minification removes unnecessary characters and performs equivalent rewrites without changing behavior: comments and whitespace, long variable names, unreachable code, <code>true</code> → <code>!0</code>, merged declarations and more.</p>
-<h3>Why use an AST instead of regex?</h3>
-<p>Regex replacements can damage strings, template literals or regular expressions, and cannot reason about side effects. JShaman-JSMinify parses source into a Babel AST first, then compresses, renames and prints it — so modern syntax is handled correctly and unused code is removed safely.</p>
-<h3>How much smaller will my code be?</h3>
-<p>It depends on the input: comment-heavy, whitespace-heavy files with long names often shrink by 30%–70%. Already-minified or string-heavy projects improve less. The tool shows original size, output size and savings so you can judge whether more aggressive options are worth it.</p>
-<h3>Minification vs obfuscation</h3>
-<p>Minification reduces size; renaming is a side effect. Obfuscation makes code harder to read, often with control-flow transforms. JShaman-JSMinify focuses on minification and optional mangling; it is not a control-flow obfuscator, and obfuscation should not be treated as a security boundary.</p>
-<h3>Privacy and safety</h3>
-<p>Online minification runs entirely in your browser; code is never sent to a server or stored. The CLI, Node API and build plugins run only on your machine or in CI.</p></div>
-	</section>
-
-	<!-- ===== DOCS ===== -->
-	<section class="section" id="docs"><div class="section-header">
-<div class="section-tag">Documentation</div>
-<h2>Complete documentation</h2>
-<p>Use the minifier in the browser, from the CLI, from Node.js or inside your build.</p>
-</div>
-<details class="doc-card" id="quickstart" open="">
-<summary class="doc-summary"><span class="doc-num">01</span> Quick start<span class="doc-chevron" aria-hidden="true">▾</span></summary>
-<div class="doc-body">
-<h3>Online</h3>
-<p>Paste code into the editor above, choose options and click <strong>Minify JavaScript</strong>. Everything runs locally in the browser.</p>
-<h3>CLI</h3>
-<p>Requires Node.js 12 or newer.</p>
-<pre class="code-block" data-lang="bash">npm install -g jshaman-jsminify
-
-jshaman-jsminify input.js -o input.min.js
-jshaman-jsminify a.js b.js -c -m -o bundle.min.js
-jshaman-jsminify -c -m &lt; input.js &gt; input.min.js
-jshaman-jsminify app.js -o app.min.js --source-map</pre>
-<h3>Node API</h3>
-<pre class="code-block" data-lang="js">const { minify } = require("jshaman-jsminify");
-const source = "const answer = 42; console.log(answer);";
-
-const result = minify(source, {
-	compress: { drop_console: true, passes: 2 },
-	mangle: { toplevel: true },
-	output: { comments: false },
-	sourceMap: { filename: "app.min.js", url: "app.min.js.map" }
-});
-
-if (result.error) throw result.error;
-console.log(result.code);</pre>
-</div>
-</details>
-<details class="doc-card" id="cli">
-<summary class="doc-summary"><span class="doc-num">02</span> Command line<span class="doc-chevron" aria-hidden="true">▾</span></summary>
-<div class="doc-body">
-<p>Run <code>jshaman-jsminify --help</code> for the full list. Common flags:</p>
-<div class="table-wrap"><table><thead><tr><th>Flag</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>-o, --output &lt;file&gt;</code></td><td>Write output to a file (stdout by default)</td></tr>
-<tr><td><code>-c, --compress</code></td><td>Enable compression (on by default); accepts key=value options</td></tr>
-<tr><td><code>-m, --mangle</code></td><td>Enable variable/function mangling (on by default)</td></tr>
-<tr><td><code>--target &lt;es5|es2015|...|esnext&gt;</code></td><td>Downlevel syntax to an ES version before minifying</td></tr>
-<tr><td><code>--source-map</code></td><td>Generate a source map; supports map-file, url, root, inline and content options</td></tr>
-<tr><td><code>--no-report</code></td><td>Disable the per-operation optimization report in build logs</td></tr>
-<tr><td><code>--ie8</code>, <code>--safari10</code>, <code>--webkit</code></td><td>Compatibility modes</td></tr>
-</tbody></table></div>
-<h3>All CLI flags</h3><div class="table-wrap"><table><thead><tr><th>Flag</th><th>Description</th></tr></thead><tbody><tr><td><code>-o, --output &lt;file&gt;</code></td><td>Write output to a file; stdout by default.</td></tr>
-<tr><td><code>-c, --compress [opts]</code></td><td>Enable compression (default); accepts key=value options.</td></tr>
-<tr><td><code>--no-compress</code></td><td>Disable compression.</td></tr>
-<tr><td><code>--drop-console</code></td><td>Remove console.* calls.</td></tr>
-<tr><td><code>--no-drop-console</code></td><td>Keep console.* calls.</td></tr>
-<tr><td><code>--no-debugger</code></td><td>Remove debugger statements (default).</td></tr>
-<tr><td><code>--passes &lt;n&gt;</code></td><td>Number of compression passes (default 1).</td></tr>
-<tr><td><code>--no-keep-fargs</code></td><td>Remove unused function parameters.</td></tr>
-<tr><td><code>-m, --mangle [opts]</code></td><td>Enable variable/function mangling (default).</td></tr>
-<tr><td><code>--no-mangle</code></td><td>Disable mangling.</td></tr>
-<tr><td><code>--mangle-toplevel</code></td><td>Also mangle top-level names.</td></tr>
-<tr><td><code>--keep-fnames</code></td><td>Keep function names.</td></tr>
-<tr><td><code>--keep-classnames</code></td><td>Keep class names.</td></tr>
-<tr><td><code>--mangle-props [opts]</code></td><td>Mangle property names; reserved=a,b; keep_quoted=false.</td></tr>
-<tr><td><code>--reserved &lt;names&gt;</code></td><td>Names to keep; comma-separated, /regex/ supported.</td></tr>
-<tr><td><code>--toplevel</code></td><td>Process top-level declarations too.</td></tr>
-<tr><td><code>-b, --beautify [opts]</code></td><td>Beautify output without whitespace compression.</td></tr>
-<tr><td><code>--comments [value]</code></td><td>Keep comments: all, some (@license) or /regex/.</td></tr>
-<tr><td><code>--quote-style &lt;style&gt;</code></td><td>Quote style: single, double or backtick.</td></tr>
-<tr><td><code>--preamble &lt;text&gt;</code></td><td>Prepend text to the output.</td></tr>
-<tr><td><code>--inline-script</code></td><td>Escape &lt;/script for inline HTML.</td></tr>
-<tr><td><code>--no-shebang</code></td><td>Remove the shebang line.</td></tr>
-<tr><td><code>--preserve-line</code></td><td>Try to preserve original line numbers.</td></tr>
-<tr><td><code>--braces</code></td><td>Add braces to single-statement bodies.</td></tr>
-<tr><td><code>--quote-keys</code></td><td>Quote all object keys.</td></tr>
-<tr><td><code>--keep-quoted-props</code></td><td>Keep existing object-key quotes.</td></tr>
-<tr><td><code>--width &lt;columns&gt;</code></td><td>Wrap lines after this width; 0 disables wrapping.</td></tr>
-<tr><td><code>--indent-start &lt;n&gt;</code></td><td>Extra leading spaces.</td></tr>
-<tr><td><code>--indent-level &lt;n&gt;</code></td><td>Initial indent level; 4 spaces per level.</td></tr>
-<tr><td><code>--no-semicolons</code></td><td>Omit optional semicolons.</td></tr>
-<tr><td><code>--wrap-iife</code></td><td>Wrap IIFEs in extra parentheses.</td></tr>
-<tr><td><code>--ie8</code></td><td>IE8-compatible mangling and property output.</td></tr>
-<tr><td><code>--safari10</code></td><td>Safari 10/11 loop-scope compatibility.</td></tr>
-<tr><td><code>--webkit</code></td><td>Safari/WebKit compatibility.</td></tr>
-<tr><td><code>--ascii-only</code></td><td>Output ASCII only.</td></tr>
-<tr><td><code>--target &lt;version&gt;</code></td><td>Output target: es5, es2015 ... es2022, esnext.</td></tr>
-<tr><td><code>--source-map [opts]</code></td><td>Generate a source map: map-file=, url=, root=, source=, includeSources=false, inline, content=inline.</td></tr>
-<tr><td><code>--name-cache &lt;file&gt;</code></td><td>Reuse and save renaming results across builds.</td></tr>
-<tr><td><code>--source-type &lt;type&gt;</code></td><td>script, module or unambiguous (default).</td></tr>
-<tr><td><code>--parse &lt;options&gt;</code></td><td>Parser options: expression=true, plugins=[jsx], allowReturnOutsideFunction=true.</td></tr>
-<tr><td><code>--expression</code></td><td>Parse the input as a single expression.</td></tr>
-<tr><td><code>--no-report</code></td><td>Disable per-operation optimization details.</td></tr>
-<tr><td><code>--report</code></td><td>Force optimization details (default).</td></tr>
-<tr><td><code>--stats</code></td><td>Write compression statistics to stderr.</td></tr>
-<tr><td><code>-V, --version</code></td><td>Print version.</td></tr>
-<tr><td><code>-h, --help</code></td><td>Print help.</td></tr></tbody></table></div></div>
-</details>
-<details class="doc-card" id="api">
-<summary class="doc-summary"><span class="doc-num">03</span> Node API<span class="doc-chevron" aria-hidden="true">▾</span></summary>
-<div class="doc-body">
-<h3>minify(source, options)</h3>
-<p>Returns <code>{ code, map, error, warnings, reports, stats }</code>. It does not throw for minification failures; check <code>result.error</code>.</p>
-<pre class="code-block" data-lang="js">const { minify } = require("jshaman-jsminify");
-const source = "const answer = 42; console.log(answer);";
-
-const result = minify(source, {
-	target: "es5",
-	compress: true,
-	mangle: true,
-	sourceMap: true
-});</pre>
-<h3>Output target</h3>
-<p><code>target</code> accepts <code>es5</code>, <code>es2015</code> … <code>es2022</code> and <code>esnext</code>. Downleveling uses Babel preset-env; it converts syntax only and does not inject polyfills or bundle modules.</p>
-<h3>Other exports</h3>
-<p><code>parse</code>, <code>transform</code>, <code>generate</code>, <code>minifyAst</code>, <code>defaultOptions</code> and <code>version</code> are also available.</p>
-</div>
-</details>
-<details class="doc-card" id="options">
-<summary class="doc-summary"><span class="doc-num">04</span> Full options reference<span class="doc-chevron" aria-hidden="true">▾</span></summary>
-<div class="doc-body"><p>All options are optional. Defaults below match the library; the online UI turns on a safe subset.</p><h3>Full option reference</h3><h4>compress — optimization</h4><div class="table-wrap"><table><thead><tr><th>Option</th><th>Default</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td><code>compress.unused</code></td><td>true</td><td>Remove unused local functions and variables.</td><td><code>function unused(){}</code> → removed</td></tr>
-<tr><td><code>compress.toplevel</code></td><td>false</td><td>Also compress and mangle top-level declarations.</td><td><code>var G=1</code> → <code>var e=1</code></td></tr>
-<tr><td><code>compress.dead_code</code></td><td>true</td><td>Remove code after return, throw and other unreachable code.</td><td><code>return 1; work()</code> → <code>return 1</code></td></tr>
-<tr><td><code>compress.side_effects</code></td><td>true</td><td>Drop expressions and statements with no side effects.</td><td><code>1+2;</code> → removed</td></tr>
-<tr><td><code>compress.join_vars</code></td><td>true</td><td>Merge adjacent var, let and const declarations.</td><td><code>var a=1; var b=2</code> → <code>var a=1,b=2</code></td></tr>
-<tr><td><code>compress.sequences</code></td><td>true</td><td>Merge consecutive expression statements into comma sequences.</td><td><code>a(); b()</code> → <code>a(),b()</code></td></tr>
-<tr><td><code>compress.if_return</code></td><td>true</td><td>Merge if/return branches where equivalent.</td><td><code>if(x)return 1;return 2</code> → <code>return x?1:2</code></td></tr>
-<tr><td><code>compress.booleans</code></td><td>true</td><td>Rewrite true to !0 and false to !1.</td><td><code>true</code> → <code>!0</code>, <code>false</code> → <code>!1</code></td></tr>
-<tr><td><code>compress.assignments</code></td><td>true</td><td>Simplify assignments and increment/decrement expressions.</td><td><code>a=a+1</code> → <code>a++</code></td></tr>
-<tr><td><code>compress.directives</code></td><td>true</td><td>Deduplicate directive prologues such as use strict.</td><td>Repeated <code>"use strict"</code> → one</td></tr>
-<tr><td><code>compress.loops</code></td><td>true</td><td>Simplify while(true), for(;;), do-while(false) and similar loops.</td><td><code>while(true){}</code> → <code>for(;;){}</code></td></tr>
-<tr><td><code>compress.switches</code></td><td>true</td><td>Remove trailing breaks and convert simple switches to if.</td><td><code>switch(x){case 1:return 1;break}</code> → <code>if(x===1)return 1</code></td></tr>
-<tr><td><code>compress.inline</code></td><td>true</td><td>Inline simple single-use functions with a single return.</td><td><code>function f(){return 1} f()</code> → <code>1</code></td></tr>
-<tr><td><code>compress.arguments</code></td><td>true</td><td>Rewrite arguments[0] to the corresponding parameter name.</td><td><code>arguments[0]</code> → parameter name</td></tr>
-<tr><td><code>compress.arrows</code></td><td>false</td><td>Convert function callbacks to arrow functions (ES6+, opt-in).</td><td><code>function(){return 1}</code> → <code>()=&gt;1</code></td></tr>
-<tr><td><code>compress.hoist_funs</code></td><td>false</td><td>Move function declarations to the top of their scope.</td><td>Function declarations moved to scope top</td></tr>
-<tr><td><code>compress.hoist_vars</code></td><td>false</td><td>Merge nested var declarations into the function top.</td><td><code>if(x){var a=1}</code> → <code>var a; if(x)a=1</code></td></tr>
-<tr><td><code>compress.unsafe_undefined</code></td><td>false</td><td>Replace undefined references with void 0 (unsafe if shadowed).</td><td><code>undefined</code> → <code>void 0</code></td></tr>
-<tr><td><code>compress.unsafe_math</code></td><td>false</td><td>Rewrite Math.pow(x, 2) and x ** 2 as multiplication (unsafe).</td><td><code>x**2</code> → <code>x*x</code></td></tr>
-<tr><td><code>compress.unsafe_proto</code></td><td>false</td><td>Rewrite prototype access (unsafe).</td><td><code>Array.prototype.slice</code> → <code>[].slice</code></td></tr>
-<tr><td><code>compress.unsafe_regexp</code></td><td>false</td><td>Convert RegExp constructors to regular expression literals.</td><td><code>new RegExp("a")</code> → <code>/a/</code></td></tr>
-<tr><td><code>compress.properties</code></td><td>true</td><td>Simplify property access such as o["a"] to o.a.</td><td><code>o["a"]</code> → <code>o.a</code></td></tr>
-<tr><td><code>compress.empty_statement</code></td><td>true</td><td>Remove empty statements and empty else branches.</td><td><code>if(x){}else y()</code> → <code>if(!x)y()</code></td></tr>
-<tr><td><code>compress.conditionals</code></td><td>true</td><td>Convert if statements to ternaries or short-circuit expressions.</td><td><code>if(x)y()</code> → <code>x&amp;&amp;y()</code></td></tr>
-<tr><td><code>compress.inline_literals</code></td><td>true</td><td>Inline constant references at their use sites.</td><td><code>var X=1; f(X)</code> → <code>f(1)</code></td></tr>
-<tr><td><code>compress.collapse_vars</code></td><td>true</td><td>Merge single-use variables into their use sites.</td><td><code>var a=f(); g(a)</code> → <code>g(f())</code></td></tr>
-<tr><td><code>compress.reduce_vars</code></td><td>true</td><td>Propagate single-assignment constant variables.</td><td><code>var a=1; f(a)</code> → <code>f(1)</code></td></tr>
-<tr><td><code>compress.evaluate</code></td><td>true</td><td>Fold constant expressions such as 1 + 2 to 3.</td><td><code>1+2</code> → <code>3</code></td></tr>
-<tr><td><code>compress.drop_debugger</code></td><td>true</td><td>Remove debugger statements.</td><td><code>debugger</code> → removed</td></tr>
-<tr><td><code>compress.drop_console</code></td><td>false</td><td>Remove console.* calls. This changes runtime behavior.</td><td><code>console.log(1)</code> → removed</td></tr>
-<tr><td><code>compress.pure_getters</code></td><td>false</td><td>Treat property reads as pure and remove them when safe (unsafe).</td><td><code>obj.x;</code> → removed (unsafe)</td></tr>
-<tr><td><code>compress.keep_fargs</code></td><td>true</td><td>Keep unused function parameters (safer).</td><td><code>function f(a){}</code> keeps <code>a</code></td></tr>
-<tr><td><code>compress.pure_funcs</code></td><td>[]</td><td>Function calls that may be removed when their result is unused.</td><td><code>pure()</code> → removed when unused</td></tr>
-<tr><td><code>compress.passes</code></td><td>1</td><td>Number of compression passes. The web UI uses 2 by default.</td><td><code>passes:1</code> vs <code>passes:2</code></td></tr>
-<tr><td><code>compress.unused_functions</code></td><td>null</td><td>Override unused handling for functions: true or false.</td><td><code>unused:false, unused_functions:true</code></td></tr>
-<tr><td><code>compress.unused_variables</code></td><td>null</td><td>Override unused handling for variables: true or false.</td><td><code>unused:false, unused_variables:true</code></td></tr>
-<tr><td><code>compress.unused_toplevel_functions</code></td><td>null</td><td>Override unused handling for top-level functions.</td><td><code>unused_toplevel_functions:true</code></td></tr>
-<tr><td><code>compress.unused_toplevel_variables</code></td><td>null</td><td>Override unused handling for top-level variables.</td><td><code>unused_toplevel_variables:true</code></td></tr></tbody></table></div>
-<h4>mangle — renaming</h4><div class="table-wrap"><table><thead><tr><th>Option</th><th>Default</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td><code>mangle.variables</code></td><td>true</td><td>Rename local variables to short names.</td><td><code>var longName</code> → <code>var e</code></td></tr>
-<tr><td><code>mangle.functions</code></td><td>true</td><td>Rename local functions to short names.</td><td><code>function longName</code> → <code>function e</code></td></tr>
-<tr><td><code>mangle.toplevel</code></td><td>false</td><td>Rename top-level names. Enable only when no external references exist.</td><td>Top-level <code>var G</code> → <code>var e</code></td></tr>
-<tr><td><code>mangle.keep_classnames</code></td><td>false</td><td>Do not rename class names.</td><td><code>class User</code> keeps <code>User</code></td></tr>
-<tr><td><code>mangle.toplevel_variables</code></td><td>null</td><td>Override top-level variable renaming: true or false.</td><td>Top-level variables only</td></tr>
-<tr><td><code>mangle.toplevel_functions</code></td><td>null</td><td>Override top-level function renaming: true or false.</td><td>Top-level functions only</td></tr>
-<tr><td><code>mangle.reserved</code></td><td>[]</td><td>Names that must not be renamed; supports strings and /regex/.</td><td><code>reserved:["$"]</code> keeps <code>$</code></td></tr>
-<tr><td><code>mangle.properties</code></td><td>false</td><td>Mangle property names. Can be an object with reserved, keep_quoted and regex.</td><td><code>o.longName</code> → <code>o.e</code></td></tr></tbody></table></div>
-<h4>output — formatting</h4><div class="table-wrap"><table><thead><tr><th>Option</th><th>Default</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td><code>output.beautify</code></td><td>false</td><td>Pretty-print output with line breaks and indentation.</td><td>Compact output → indented lines</td></tr>
-<tr><td><code>output.comments</code></td><td>false</td><td>Keep comments: false removes all, true keeps all, "some" keeps @license.</td><td><code>false</code> removes comments</td></tr>
-<tr><td><code>output.ascii_only</code></td><td>false</td><td>Escape non-ASCII characters.</td><td><code>café</code> → <code>\u00e9</code></td></tr>
-<tr><td><code>output.quote_style</code></td><td>null</td><td>Quote style: "single", "double" or "backtick".</td><td><code>"a"</code> → <code>'a'</code></td></tr>
-<tr><td><code>output.preamble</code></td><td>""</td><td>Text prepended to the output.</td><td><code>/* build */</code> at file top</td></tr>
-<tr><td><code>output.inline_script</code></td><td>false</td><td>Escape &lt;/script so output can be embedded in HTML.</td><td><code>&lt;/script&gt;</code> → <code>\x3c/script&gt;</code></td></tr>
-<tr><td><code>output.shebang</code></td><td>true</td><td>Keep the first shebang line.</td><td><code>#!/usr/bin/env node</code> kept</td></tr>
-<tr><td><code>output.preserve_line</code></td><td>false</td><td>Try to preserve original line numbers.</td><td>Original line numbers kept</td></tr>
-<tr><td><code>output.braces</code></td><td>false</td><td>Add braces to single-statement if and loop bodies.</td><td><code>if(x)y()</code> → <code>if(x){y()}</code></td></tr>
-<tr><td><code>output.quote_keys</code></td><td>false</td><td>Quote all object keys.</td><td><code>{a:1}</code> → <code>{"a":1}</code></td></tr>
-<tr><td><code>output.keep_quoted_props</code></td><td>false</td><td>Keep quotes on object keys that were quoted.</td><td><code>{"a":1}</code> keeps quotes</td></tr>
-<tr><td><code>output.max_line_len</code></td><td>0</td><td>Wrap lines after this many characters; 0 disables wrapping.</td><td>Wrap lines at 80 columns</td></tr>
-<tr><td><code>output.width</code></td><td>0</td><td>Alias for max_line_len.</td><td>Alias of <code>max_line_len</code></td></tr>
-<tr><td><code>output.wrap_iife</code></td><td>false</td><td>Wrap immediately invoked function expressions in extra parentheses.</td><td><code>(function(){})()</code> → <code>((function(){})())</code></td></tr>
-<tr><td><code>output.semicolons</code></td><td>true</td><td>Emit semicolons. false omits optional semicolons.</td><td><code>a();b();</code> → <code>a();b()</code></td></tr>
-<tr><td><code>output.indent_start</code></td><td>0</td><td>Extra spaces at the start of each line.</td><td>Add 2 leading spaces</td></tr>
-<tr><td><code>output.indent_level</code></td><td>0</td><td>Initial indentation level; each level is 4 spaces.</td><td>Start at indentation level 1</td></tr></tbody></table></div>
-<h4>parse — parser</h4><div class="table-wrap"><table><thead><tr><th>Option</th><th>Default</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td><code>parse.sourceType</code></td><td>"unambiguous"</td><td>Source type: "script", "module" or "unambiguous".</td><td><code>script</code> vs <code>module</code></td></tr>
-<tr><td><code>parse.plugins</code></td><td>[]</td><td>Babel parser plugins, such as jsx or typescript.</td><td><code>plugins:["jsx"]</code></td></tr>
-<tr><td><code>parse.allowReturnOutsideFunction</code></td><td>false</td><td>Allow return statements outside functions.</td><td><code>return 1</code> at top level</td></tr>
-<tr><td><code>parse.expression</code></td><td>false</td><td>Parse the input as a single expression.</td><td><code>a+b</code> parsed as one expression</td></tr></tbody></table></div>
-<h4>Top-level options</h4><div class="table-wrap"><table><thead><tr><th>Option</th><th>Default</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td><code>sourceMap</code></td><td>false</td><td>Enable source maps. Can be true or an object with filename, url, root, source, includeSources, inline and content.</td><td>Emit <code>output.min.js.map</code></td></tr>
-<tr><td><code>target</code></td><td>"esnext"</td><td>Output ES target: es5, es2015 ... es2022 or esnext.</td><td><code>target:"es5"</code> converts ES6 syntax</td></tr>
-<tr><td><code>nameCache</code></td><td>null</td><td>Reuse renaming results across builds; pass an object and persist it.</td><td>Same short names across builds</td></tr>
-<tr><td><code>report</code></td><td>true</td><td>Collect per-operation optimization reports.</td><td><code>reports</code> lists each optimization</td></tr>
-<tr><td><code>ie8</code></td><td>false</td><td>IE8-compatible mangling and property output.</td><td>IE8-safe catch/property output</td></tr>
-<tr><td><code>safari10</code></td><td>false</td><td>Safari 10/11 loop-scope compatibility.</td><td>Keep loop-head <code>let</code> names</td></tr>
-<tr><td><code>webkit</code></td><td>false</td><td>Safari/WebKit compatibility.</td><td>WebKit loop/function compatibility</td></tr></tbody></table></div></div>
-</details>
-<details class="doc-card" id="sourcemap">
-<summary class="doc-summary"><span class="doc-num">05</span> Source maps &amp; nameCache<span class="doc-chevron" aria-hidden="true">▾</span></summary>
-<div class="doc-body">
-<p>Generate an external map, inline it as a data URI, or chain an upstream map. <code>nameCache</code> keeps renamed identifiers consistent across multiple builds.</p>
-<pre class="code-block" data-lang="js">const source = "const answer = 42; console.log(answer);";
-const result = minify(source, {
-	sourceMap: {
-		filename: "app.min.js",
-		url: "app.min.js.map",
-		includeSources: true
-	},
-	nameCache: {}
-});</pre>
-<div class="map-file-note"><h3>Where are the files written?</h3><p><code>minify()</code> returns <code>code</code> and <code>map</code> strings. Persist them yourself:</p><pre class="code-block" data-lang="js">const fs = require("fs");
-const path = require("path");
-
-const jsFile = path.join(__dirname, "app.min.js");
-fs.writeFileSync(jsFile, result.code);
-if (result.map) fs.writeFileSync(jsFile + ".map", result.map);</pre><p>The CLI writes both files when <code>-o</code> is supplied: <code>jshaman-jsminify input.js -o app.min.js --source-map</code>.</p></div></div>
-</details>
-<details class="doc-card" id="compat">
-<summary class="doc-summary"><span class="doc-num">06</span> Compatibility &amp; ES targets<span class="doc-chevron" aria-hidden="true">▾</span></summary>
-<div class="doc-body">
-<ul>
-<li><strong>Runtime:</strong> Node.js 12+; the browser build needs a modern ES2018 browser.</li>
-<li><strong>ES output:</strong> <code>target</code> uses Babel preset-env for syntax downleveling. It does not inject <code>Promise</code> / <code>Object.assign</code> polyfills and does not bundle modules. ES5 output may add helpers and grow.</li>
-<li><strong>Top-level names:</strong> kept by default because they may be global APIs; enable <code>toplevel</code> only when safe.</li>
-<li><strong>Property mangling:</strong> can affect JSON, <code>in</code> checks and external callers; limit it with <code>regex</code> and <code>reserved</code>.</li>
-<li><code>unsafe_*</code>, <code>arrows</code> and <code>pure_getters</code> are opt-in.</li>
-<li>With <code>eval</code> / <code>with</code>, scope-dependent optimizations degrade and emit a warning.</li>
-</ul>
-</div>
-</details><details class="doc-card" id="examples"><summary class="doc-summary"><span class="doc-num">07</span> Complete examples<span class="doc-chevron" aria-hidden="true">▾</span></summary><div class="doc-body"><p class="example-intro">Each card lists the options used for its output; unlisted options use the library defaults.</p><div class="example-grid"><article class="example-card"><div class="example-head"><h3>Remove unused code + local mangling</h3><span class="example-tag">unused / mangle</span></div><div class="example-pair"><div><span class="example-label">Input</span><pre class="code-block" data-lang="js">function app() {
-	function unusedHelper() {
-		return 42;
-	}
-
-	function calc(items) {
-		var total = 0;
-		for (var i = 0; i &lt; items.length; i++) {
-			total += items[i].price * items[i].qty;
-		}
-		return total;
-	}
-
-	console.log(calc([
-		{ price: 10, qty: 2 },
-		{ price: 5, qty: 4 }
-	]));
-}
-app();</pre></div><div><span class="example-label">Output (default options)</span><pre class="code-block" data-lang="js">function app(){function t(e){var c=0;
-for(var n=0;n&lt;e.length;n++){
-c+=e[n].price*e[n].qty
-}return c}console.log(t([
-{price:10,qty:2},{price:5,qty:4}
-]))}app();</pre></div></div><p class="example-note">unusedHelper is removed; calc becomes t, items becomes e, total becomes c, and i becomes n.</p></article>
-<article class="example-card"><div class="example-head"><h3>Remove console and debugger</h3><span class="example-tag">drop_console / drop_debugger</span></div><div class="example-pair"><div><span class="example-label">Input</span><pre class="code-block" data-lang="js">function run(value) {
-	console.log("debug", value);
-	debugger;
-	return value * 2;
-}
-console.warn("legacy");
-console.log(run(3));</pre></div><div><span class="example-label">Output</span><pre class="code-block" data-lang="js">function run(e){return e*2}</pre></div></div><p class="example-note">The top-level run function is kept by default. To remove unused top-level functions too, enable toplevel and unused_toplevel_functions.</p></article>
-<article class="example-card"><div class="example-head"><h3>Conditionals, booleans and constant folding</h3><span class="example-tag">conditionals / if_return / booleans / evaluate</span></div><div class="example-pair"><div><span class="example-label">Input</span><pre class="code-block" data-lang="js">function status(ok) {
-	if (ok) {
-		return true;
-	} else {
-		return false;
-	}
-}
-console.log(status(1), 1 + 2 * 3);</pre></div><div><span class="example-label">Output</span><pre class="code-block" data-lang="js">function status(t){return!!t}
-console.log(status(1),7);</pre></div></div><p class="example-note">Multiple passes apply in pipeline order: if_return → conditionals → booleans → evaluate.</p></article>
-<article class="example-card"><div class="example-head"><h3>Turn if/else into a conditional expression</h3><span class="example-tag">conditionals</span></div><div class="example-pair"><div><span class="example-label">Input</span><pre class="code-block" data-lang="js">function notify(x) {
-	if (x) {
-		console.log("yes");
-	} else {
-		console.log("no");
-	}
-}
-notify(true);
-notify(false);</pre></div><div><span class="example-label">Output</span><pre class="code-block" data-lang="js">function notify(o){
-	o?console.log("yes"):console.log("no")
-}
-notify(!0),notify(!1);</pre></div></div><p class="example-note">booleans rewrites true / false as !0 / !1, and sequences merges the two calls.</p></article>
-<article class="example-card"><div class="example-head"><h3>Chained inlining and multiple passes</h3><span class="example-tag">inline / passes</span></div><div class="example-pair"><div><span class="example-label">Input</span><pre class="code-block" data-lang="js">function outer(a) {
-	function inner(b) {
-		return a + b;
-	}
-	return inner(2);
-}
-console.log(outer(1));</pre></div><div><span class="example-label">Output (toplevel + passes: 2)</span><pre class="code-block" data-lang="js">console.log(3);</pre></div></div><p class="example-note">With one pass the output is function outer(n){return n+2}console.log(outer(1));. The second pass completes the outer inlining.</p></article>
-<article class="example-card"><div class="example-head"><h3>Property mangling with a regex filter</h3><span class="example-tag">mangle.properties</span></div><div class="example-pair"><div><span class="example-label">Input</span><pre class="code-block" data-lang="js">var user = {
-	_secret: "x",
-	name: "Tom"
-};
-console.log(user._secret, user.name);</pre></div><div><span class="example-label">Output (regex: /^_/)</span><pre class="code-block" data-lang="js">var user={e:"x",name:"Tom"};
-console.log(user.e,user.name);</pre></div></div><p class="example-note">Property mangling changes object keys and may affect JSON serialization or external callers. Use reserved and regex limits.</p></article>
-<article class="example-card"><div class="example-head"><h3>The risk of top-level mangling</h3><span class="example-tag">toplevel / mangle.toplevel</span></div><div class="example-pair"><div><span class="example-label">Input</span><pre class="code-block" data-lang="js">var MyLibrary = {
-	version: "1.0.0"
-};
-console.log(MyLibrary.version);</pre></div><div><span class="example-label">Output (toplevel: true)</span><pre class="code-block" data-lang="js">console.log({version:"1.0.0"}.version);</pre></div></div><p class="example-note">The default output keeps var MyLibrary={version:"1.0.0"};console.log(MyLibrary.version); and preserves the global name. Enable top-level processing only when there are no external references.</p></article>
-<article class="example-card"><div class="example-head"><h3>Output formatting combination</h3><span class="example-tag">beautify / quote_style / semicolons / indent_start</span></div><div class="example-pair"><div><span class="example-label">Options</span><pre class="code-block" data-lang="js">output: {
-	beautify: true,
-	quote_style: "single",
-	semicolons: false,
-	indent_start: 2
-}</pre></div><div><span class="example-label">Output</span><pre class="code-block" data-lang="js">  var s = 'a'
-  s &amp;&amp; console.log(s)</pre></div></div><p class="example-note">Optional semicolons are omitted only where ASI is safe. A line starting with (, [, / and similar keeps its semicolon.</p></article></div></div></details><details class="doc-card" id="full-config"><summary class="doc-summary"><span class="doc-num">08</span> Complete configuration example<span class="doc-chevron" aria-hidden="true">▾</span></summary><div class="doc-body"><p>Every supported option is set explicitly. Enabled options are true, disabled options are false; values and example values are shown as well.</p><pre class="code-block" data-lang="js">const { minify } = require("jshaman-jsminify");
-const source = "const answer = 42; console.log(answer);";
-
-// All 74 options are set explicitly. Adjust values for your build.
-const options = {
-	"compress": {
-		"unused": true,
-		"toplevel": false,
-		"dead_code": true,
-		"side_effects": true,
-		"join_vars": true,
-		"sequences": true,
-		"if_return": true,
-		"booleans": true,
-		"assignments": true,
-		"directives": true,
-		"loops": true,
-		"switches": true,
-		"inline": true,
-		"arguments": true,
-		"arrows": false,
-		"hoist_funs": false,
-		"hoist_vars": false,
-		"unsafe_undefined": false,
-		"unsafe_math": false,
-		"unsafe_proto": false,
-		"unsafe_regexp": false,
-		"properties": true,
-		"empty_statement": true,
-		"conditionals": true,
-		"inline_literals": true,
-		"collapse_vars": true,
-		"reduce_vars": true,
-		"evaluate": true,
-		"drop_debugger": true,
-		"drop_console": false,
-		"pure_getters": false,
-		"keep_fargs": true,
-		"pure_funcs": [],
-		"passes": 2,
-		"unused_functions": true,
-		"unused_variables": true,
-		"unused_toplevel_functions": false,
-		"unused_toplevel_variables": false
-	},
-	"mangle": {
-		"variables": true,
-		"functions": true,
-		"toplevel": false,
-		"keep_classnames": false,
-		"toplevel_variables": false,
-		"toplevel_functions": false,
-		"reserved": [
-			"$",
-			"jQuery"
-		],
-		"properties": false
-	},
-	"output": {
-		"beautify": false,
-		"comments": "some",
-		"ascii_only": false,
-		"quote_style": "double",
-		"preamble": "/*! My App */",
-		"inline_script": false,
-		"shebang": true,
-		"preserve_line": false,
-		"braces": false,
-		"quote_keys": false,
-		"keep_quoted_props": false,
-		"max_line_len": 0,
-		"width": 0,
-		"wrap_iife": false,
-		"semicolons": true,
-		"indent_start": 0,
-		"indent_level": 0
-	},
-	"parse": {
-		"sourceType": "unambiguous",
-		"plugins": [],
-		"allowReturnOutsideFunction": false,
-		"expression": false
-	},
-	"sourceMap": {
-		"filename": "app.min.js",
-		"url": "app.min.js.map",
-		"includeSources": true
-	},
-	"target": "esnext",
-	"nameCache": {},
-	"report": true,
-	"ie8": false,
-	"safari10": false,
-	"webkit": false
-};
-
-const result = minify(source, options);
-if (result.error) throw result.error;</pre></div></details></section>
-
-	<!-- ===== PLUGINS ===== -->
-	<section class="section" id="plugins"><div class="section-header">
-<div class="section-tag">Build tools</div>
-<h2>Build-tool plugins</h2>
-<p>Use the same minifier in webpack, rollup or Vite. The adapters are included in the npm package.</p>
-</div>
-<details class="doc-card" id="webpack" open="">
-<summary class="doc-summary"><span class="doc-num">01</span> webpack plugin<span class="doc-chevron" aria-hidden="true">▾</span></summary>
-<div class="doc-body">
-<p>Works with webpack 5 and webpack 4. Options are the same as the minifier, plus <code>test</code>, <code>include</code>, <code>exclude</code>, <code>sourceMap</code> and <code>report</code>.</p>
-<pre class="code-block" data-lang="js">const JsMinifyPlugin = require("jshaman-jsminify/integrations/webpack");
+    <section class="plugins-section" id="plugins" aria-labelledby="plugins-title">
+      <div class="plugins-heading">
+        <div>
+          <span class="section-kicker">BUNDLER PLUGINS</span>
+          <h2 id="plugins-title">接入你的<br><em>构建流程。</em></h2>
+        </div>
+        <div class="plugins-intro">
+          <p>在 Webpack、Vite 或 Rollup 中直接混淆生产构建产物。同一套引擎，同一套参数，无需额外的后处理步骤。以下示例使用 Balanced 预设，并显式列出全部参数。</p>
+          <a class="plugins-doc-link" href="https://www.npmjs.com/package/javascript-obfuscator-lite#bundler-plugins" target="_blank" rel="noopener noreferrer">查看插件文档 <span>→</span></a>
+        </div>
+      </div>
+      <div class="plugin-grid">
+        <article class="plugin-card">
+          <div class="plugin-card-top"><span class="plugin-number">01</span><span class="plugin-badge">WEBPACK 5+</span></div>
+          <h3>Webpack</h3>
+          <p>在资源优化阶段处理匹配的 JavaScript 产物。</p>
+          <pre class="plugin-code"><code>const Obfuscator = require('javascript-obfuscator-lite/webpack');
 
 module.exports = {
-	mode: "production",
-	optimization: {
-		minimize: true,
-		minimizer: [new JsMinifyPlugin({ compress: { passes: 2 }, mangle: { toplevel: true } })]
-	}
-};</pre>
-<p>For webpack 4, set <code>optimization.minimize: false</code> and add the plugin to <code>plugins</code>.</p>
-</div>
-</details>
-<details class="doc-card" id="rollup">
-<summary class="doc-summary"><span class="doc-num">02</span> rollup plugin<span class="doc-chevron" aria-hidden="true">▾</span></summary>
-<div class="doc-body">
-<pre class="code-block" data-lang="js">const jsminify = require("jshaman-jsminify/integrations/rollup");
+  plugins: [
+    new Obfuscator({
+      // Balanced 预设：显式列出全部参数。
+      options: {
+        stringArray: true,
+        stringReverse: true,
+        stringUnicode: true,
+        memberExpression: true,
+        numericLiteral: true,
+        binaryExpression: true,
+        booleanLiteral: true,
+        assignmentJunk: true,
+        zombieCode: true,
+        controlFlow: false,
+        eval: false,
+        renameGlobals: false,
+        renameLocals: true,
+        compact: false,
+        comments: false,
+        parserPlugins: []
+      }
+    })
+  ]
+};</code></pre>
+        </article>
+        <article class="plugin-card">
+          <div class="plugin-card-top"><span class="plugin-number">02</span><span class="plugin-badge">VITE</span></div>
+          <h3>Vite</h3>
+          <p>混淆生产构建产物，开发服务器不受影响。</p>
+          <pre class="plugin-code"><code>import { defineConfig } from 'vite';
+import Obfuscator from 'javascript-obfuscator-lite/vite';
 
-module.exports = {
-	input: "src/index.js",
-	output: { file: "dist/bundle.js", format: "cjs", sourcemap: true },
-	plugins: [jsminify({ compress: { passes: 2 } })]
-};</pre>
-</div>
-</details>
-<details class="doc-card" id="vite">
-<summary class="doc-summary"><span class="doc-num">03</span> Vite plugin<span class="doc-chevron" aria-hidden="true">▾</span></summary>
-<div class="doc-body">
-<p>Runs during build. Disable Vite's built-in minifier so esbuild does not minify twice.</p>
-<pre class="code-block" data-lang="js">const jsminify = require("jshaman-jsminify/integrations/vite");
+export default defineConfig({
+  plugins: [
+    Obfuscator({
+      // Balanced 预设：显式列出全部参数。
+      options: {
+        stringArray: true,
+        stringReverse: true,
+        stringUnicode: true,
+        memberExpression: true,
+        numericLiteral: true,
+        binaryExpression: true,
+        booleanLiteral: true,
+        assignmentJunk: true,
+        zombieCode: true,
+        controlFlow: false,
+        eval: false,
+        renameGlobals: false,
+        renameLocals: true,
+        compact: false,
+        comments: false,
+        parserPlugins: []
+      }
+    })
+  ]
+});</code></pre>
+        </article>
+        <article class="plugin-card">
+          <div class="plugin-card-top"><span class="plugin-number">03</span><span class="plugin-badge">ROLLUP</span></div>
+          <h3>Rollup</h3>
+          <p>在标准 Rollup 构建流程中转换生成的 chunk。</p>
+          <pre class="plugin-code"><code>import Obfuscator from 'javascript-obfuscator-lite/rollup';
 
 export default {
-	build: { minify: false },
-	plugins: [jsminify({ compress: { passes: 2 } })]
-};</pre>
-</div>
-</details></section>
+  plugins: [
+    Obfuscator({
+      // Balanced 预设：显式列出全部参数。
+      options: {
+        stringArray: true,
+        stringReverse: true,
+        stringUnicode: true,
+        memberExpression: true,
+        numericLiteral: true,
+        binaryExpression: true,
+        booleanLiteral: true,
+        assignmentJunk: true,
+        zombieCode: true,
+        controlFlow: false,
+        eval: false,
+        renameGlobals: false,
+        renameLocals: true,
+        compact: false,
+        comments: false,
+        parserPlugins: []
+      }
+    })
+  ]
+};</code></pre>
+        </article>
+      </div>
+      <p class="plugins-install"><code>npm install --save-dev javascript-obfuscator-lite</code><span>混淆后的 JavaScript 会自动移除 source map。</span></p>
+      <p class="plugins-parser-note"><strong>parserPlugins</strong> 是 Babel 解析器设置，不是混淆开关。普通 JavaScript 用 <code>[]</code>，JSX 用 <code>['jsx']</code>，import attributes 用 <code>['importAttributes']</code>。TypeScript 和 Flow 需要先转译成 JavaScript。</p>
+    </section>
 
-	<!-- ===== FAQ ===== -->
-	<section class="section" id="faq"><div class="section-header">
-<div class="section-tag">FAQ</div>
-<h2>Frequently asked questions</h2>
-<p>Common questions about minification, options, build tools and safety.</p>
-</div>
-<div class="faq-list">	<div class="faq-item">
-		<button class="faq-question" type="button">What is JavaScript minification?<span class="faq-arrow">▼</span></button>
-		<div class="faq-answer"><p>Minification removes unnecessary characters and performs equivalent rewrites without changing behavior: comments, whitespace, long names, unreachable code and similar. Smaller files download faster and parse faster.</p></div>
-	</div>
-	<div class="faq-item">
-		<button class="faq-question" type="button">How much smaller will my code get?<span class="faq-arrow">▼</span></button>
-		<div class="faq-answer"><p>Typically 30%–70%, depending on comments, whitespace and identifier length. Already-minified or string-heavy code improves less. The result panel shows the exact savings.</p></div>
-	</div>
-	<div class="faq-item">
-		<button class="faq-question" type="button">Is it safe?<span class="faq-arrow">▼</span></button>
-		<div class="faq-answer"><p>The default options are conservative, and the minifier never throws for minification errors; check <code>result.error</code>. Aggressive options such as <code>unsafe_*</code>, property mangling and top-level mangling are opt-in. Run your tests against the output.</p></div>
-	</div>
-	<div class="faq-item">
-		<button class="faq-question" type="button">Does it support ES6 / ES2020+?<span class="faq-arrow">▼</span></button>
-		<div class="faq-answer"><p>Yes. The parser handles arrow functions, template literals, classes, private fields, async/await, optional chaining, nullish coalescing and BigInt. By default the syntax level is preserved; choose an output target to downlevel.</p></div>
-	</div>
-	<div class="faq-item">
-		<button class="faq-question" type="button">How do I output ES5 or another ES version?<span class="faq-arrow">▼</span></button>
-		<div class="faq-answer"><p>Choose an <strong>Output target</strong> in the advanced options, pass <code>--target es5</code> to the CLI, or set <code>target: "es5"</code> in the API. This uses Babel preset-env for syntax conversion; it does not add polyfills.</p></div>
-	</div>
-	<div class="faq-item">
-		<button class="faq-question" type="button">Can I use it with build tools?<span class="faq-arrow">▼</span></button>
-		<div class="faq-answer"><p>Yes. The npm package includes webpack, rollup and Vite adapters. You can also call the Node API directly.</p></div>
-	</div>
-	<div class="faq-item">
-		<button class="faq-question" type="button">Is my code uploaded?<span class="faq-arrow">▼</span></button>
-		<div class="faq-answer"><p>No. Online minification runs entirely in your browser; code is never sent to a server or stored. CLI and plugins run locally.</p></div>
-	</div>
-	<div class="faq-item">
-		<button class="faq-question" type="button">Does it work offline?<span class="faq-arrow">▼</span></button>
-		<div class="faq-answer"><p>Once the page and browser bundle are loaded, minification works offline. Choosing an ES target loads Babel on demand on first use.</p></div>
-	</div>
-</div></section>
-	<!-- ===== ABOUT ===== -->
-	<section class="section" id="about"><div class="section-header">
-<div class="section-tag">About</div>
-<h2>About JShaman-JSMinify</h2>
-<p>A free, local-first JavaScript minifier built for production output.</p>
-</div>
-<div class="seo-section about-card">
-<h3>Built for production JavaScript</h3>
-<p>JShaman-JSMinify parses source into a Babel AST, then removes unused and unreachable code, merges declarations and expressions, folds constants, inlines simple functions, shortens names and prints compact output. It is a real minifier, not a text replacement.</p>
-<h3>What it includes</h3>
-<ul>
-<li><strong>38 compression optimizations</strong> covering dead code, side effects, conditionals, loops, switches, inlining and constant folding</li>
-<li><strong>70+ configurable options</strong> for compression, mangling, output, parsing, compatibility and source maps</li>
-<li><strong>Variable, function and property mangling</strong> with reserved lists and property regexes</li>
-<li><strong>Production output</strong>: source maps, nameCache, IIFE wrapping, ASCII escaping, quotes, semicolons and indentation</li>
-<li><strong>Multiple entry points</strong>: browser UI, CLI, Node API and webpack / rollup / Vite plugins</li>
-<li><strong>Privacy</strong>: online minification stays in the browser; code is never uploaded or stored</li>
-</ul>
-<h3>Who it is for</h3>
-<p>Developers who need to minify a single script quickly, teams adding a minification step to CI, and projects that want an alternative to a full build-tool setup. Node.js 12+ is enough for the CLI and API.</p>
-<h3>Relationship to JShaman</h3>
-<p>JShaman-JSMinify is the JavaScript minification tool in the JShaman family. JShaman focuses on JavaScript obfuscation and code protection. For stronger code protection, visit the JShaman website.</p>
-<a class="about-link" href="https://jshaman.com/" target="_blank" rel="noopener">Visit jshaman.com <span aria-hidden="true">→</span></a>
-</div></section>
+    <section class="tools-section" id="tools" aria-labelledby="tools-title">
+      <div class="section-heading">
+        <div><span class="section-kicker">DEVELOPER TOOLKIT</span><h2 id="tools-title">更多开发工具</h2></div>
+        <p>继续探索代码压缩、格式化、编码与转换工具。</p>
+      </div>
+      <div class="tool-links">
+        <a href="https://www.jshaman.com" target="_blank" rel="noopener noreferrer"><span>01</span><strong>JShaman JavaScript Obfuscator</strong><small>JSHAMAN</small><i>↗</i></a>
+        <a href="https://www.jsjiami.online" target="_blank" rel="noopener noreferrer"><span>02</span><strong>JSJiaMi.online</strong><small>ENCRYPTION</small><i>↗</i></a>
+        <a href="https://www.js-obfuscator.com" target="_blank" rel="noopener noreferrer"><span>03</span><strong>JS-Obfuscator</strong><small>OBFUSCATOR</small><i>↗</i></a>
+        <a href="https://www.jshaman.com/jsminify" target="_blank" rel="noopener noreferrer"><span>04</span><strong>JS-Minify</strong><small>MINIFY</small><i>↗</i></a>
+        <a href="https://www.jshaman.com/enhtml" target="_blank" rel="noopener noreferrer"><span>05</span><strong>Html-Encode</strong><small>ENCODE</small><i>↗</i></a>
+        <a href="https://www.jshaman.com/bytejs" target="_blank" rel="noopener noreferrer"><span>06</span><strong>JS2ByteCode</strong><small>BYTECODE</small><i>↗</i></a>
+        <a href="https://www.jshaman.com/tools/hide-js-jia-mi.html" target="_blank" rel="noopener noreferrer"><span>07</span><strong>JS代码隐形加密</strong><small>HIDE JS</small><i>↗</i></a>
+        <a href="https://www.jshaman.com/tools/combining-js-jia-mi.html" target="_blank" rel="noopener noreferrer"><span>08</span><strong>Combining JS组合字符加密</strong><small>COMBINE</small><i>↗</i></a>
+        <a href="https://www.jshaman.com/tools/ts2js.html" target="_blank" rel="noopener noreferrer"><span>09</span><strong>TS 转 JS</strong><small>TRANSPILE</small><i>↗</i></a>
+        <a href="https://www.jshaman.com/tools/anti-ai-js-encrypt.html" target="_blank" rel="noopener noreferrer"><span>10</span><strong>反AI逆向JS加密</strong><small>ANTI-AI</small><i>↗</i></a>
+      </div>
+    </section>
 
-</main>
+    <section class="about-section" id="about" aria-labelledby="about-title">
+      <div class="about-hero">
+        <div>
+          <span class="section-kicker">ABOUT JSJIA MI</span>
+          <h2 id="about-title">关于这个工具。<br><em>简单，直接。</em></h2>
+        </div>
+        <p class="about-lede">JS加密（jsjiami.github.io）是一个在浏览器本地运行的 JavaScript 混淆加密工具。所有处理都在当前设备完成，源码无需上传服务器。</p>
+      </div>
+      <div class="about-grid">
+        <article class="about-card">
+          <span class="about-index">01 / 所属项目</span>
+          <h3>属于 jshaman.com</h3>
+          <p>JS加密是 <a href="https://www.jshaman.com" target="_blank" rel="noopener noreferrer">jshaman.com</a> 旗下的在线工具项目，专注于 JavaScript 代码保护与混淆加密。</p>
+        </article>
+        <article class="about-card">
+          <span class="about-index">02 / 联系我们</span>
+          <h3>保持联系</h3>
+          <p>如有问题、建议或合作需求，欢迎发送邮件至 <a href="mailto:support@jshaman.com">support@jshaman.com</a>。</p>
+        </article>
+      </div>
+      <div class="about-note">
+        <span class="about-index">03 / 工具说明</span>
+        <p>导入或粘贴 JavaScript，选择保护策略后即可生成混淆结果，并直接复制或下载。代码不会离开你的浏览器。</p>
+      </div>
+      <div class="about-actions">
+        <a class="about-primary" href="#workspace">打开加密工作台 <span>→</span></a>
+        <a class="about-secondary" href="https://www.jshaman.com" target="_blank" rel="noopener noreferrer">访问 jshaman.com</a>
+      </div>
+    </section>
+  </main>
 
-<footer><div class="footer-inner">
-<div class="footer-grid">
-<div class="footer-brand">
-<a class="logo" href="#tool" id="footerLogo">
-			<span class="logo-icon" aria-hidden="true"><svg viewBox="0 0 40 40" focusable="false"><path d="M20.00 5.00 L21.00 5.11 L21.98 5.28 L22.94 5.52 L23.88 5.83 L24.79 6.19 L25.67 6.61 L26.52 7.08 L27.33 7.61 L28.09 8.19 L28.81 8.82 L29.49 9.49 L30.11 10.20 L30.69 10.94 L31.21 11.72 L31.67 12.53 L32.08 13.36 L32.42 14.21 L32.71 15.08 L32.94 15.96 L33.10 16.85 L33.21 17.75 L33.25 18.64 L33.24 19.53 L33.16 20.41 L33.03 21.28 L32.84 22.14 L32.60 22.97 L32.30 23.78 L31.95 24.57 L31.54 25.32 L31.10 26.04 L30.60 26.73 L30.07 27.38 L29.50 27.98 L28.89 28.55 L28.25 29.06 L27.58 29.53 L26.88 29.96 L26.16 30.33 L25.43 30.65 L24.67 30.92 L23.91 31.13 L23.14 31.29 L22.36 31.40 L21.59 31.46 L20.81 31.46 L20.04 31.42 L19.29 31.32 L18.54 31.17 L17.82 30.97 L17.11 30.73 L16.43 30.44 L15.77 30.11 L15.14 29.73 L14.54 29.32 L13.97 28.87 L13.44 28.39 L12.94 27.88 L12.49 27.34 L12.07 26.77 L11.70 26.18 L11.37 25.57 L11.08 24.95 L10.84 24.31 L10.65 23.66 L10.50 23.01 L10.39 22.35 L10.33 21.69 L10.32 21.03 L10.34 20.38 L10.42 19.74 L10.53 19.11 L10.69 18.49 L10.88 17.89 L11.12 17.31 L11.39 16.75 L11.69 16.21 L12.03 15.70 L12.40 15.22 L12.80 14.77 L13.22 14.35 L13.67 13.96 L14.14 13.61 L14.63 13.29 L15.13 13.01 L15.65 12.77 L16.17 12.56 L16.71 12.39 L17.25 12.26 L17.79 12.17 L18.33 12.11 L18.87 12.09 L19.41 12.11 L19.94 12.17 L20.46 12.26 L20.96 12.38 L21.45 12.54 L21.93 12.72 L22.39 12.94 L22.82 13.19 L23.24 13.46 L23.63 13.75 L23.99 14.07 L24.33 14.41 L24.65 14.77 L24.93 15.15 L25.18 15.54 L25.41 15.94 L25.60 16.35 L25.77 16.77 L25.90 17.19 L26.01 17.62 L26.08 18.05 L26.12 18.48 L26.13 18.90 L26.12 19.32 L26.07 19.74 L26.00 20.14 L25.90 20.53 L25.78 20.92 L25.63 21.28 L25.46 21.63 L25.27 21.97 L25.05 22.28 L24.82 22.58 L24.58 22.85 L24.31 23.11 L24.04 23.34 L23.75 23.55 L23.45 23.74 L23.15 23.90 L22.84 24.04 L22.52 24.15 L22.20 24.24 L21.89 24.31 L21.57 24.36 L21.25 24.38 L20.94 24.38 L20.64 24.35 L20.34 24.31 L20.05 24.25 L19.77 24.17 L19.50 24.07 L19.25 23.95 L19.00 23.82 L18.78 23.67 L18.56 23.51 L18.37 23.34 L18.18 23.15 L18.02 22.96 L17.87 22.76 L17.74 22.56 L17.63 22.35 L17.54 22.13 L17.46 21.92 L17.40 21.70 L17.36 21.49 L17.34 21.28 L17.33 21.07 L17.34 20.87" fill="none" stroke="#000" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="20" cy="20" r="2.2" fill="#000"></circle></svg></span>
-			<span class="logo-text">JShaman<span>-JSMinify</span></span>
-		</a>
-<p>A free, local-first JavaScript minifier with CLI, Node API and webpack / rollup / Vite plugins. Browser processing; your code is never uploaded.</p>
-</div>
-<div class="footer-links"><h4>Product</h4><ul>
-<li><a href="#tool">Minify</a></li>
-<li><a href="#features">Features</a></li>
-<li><a href="#how-to">How it works</a></li>
-<li><a href="#faq">FAQ</a></li>
-</ul></div>
-<div class="footer-links"><h4>Documentation</h4><ul>
-<li><a href="#quickstart">Quick start</a></li>
-<li><a href="#cli">CLI</a></li>
-<li><a href="#api">Node API</a></li>
-<li><a href="#options">Options</a></li>
-<li><a href="#sourcemap">Source maps</a></li>
-<li><a href="#full-config">Full configuration</a></li>
-<li><a href="#examples">Examples</a></li>
-</ul></div>
-<div class="footer-links"><h4>Build tools</h4><ul>
-<li><a href="#plugins">Plugins</a></li>
-<li><a href="#webpack">webpack</a></li>
-<li><a href="#rollup">rollup</a></li>
-<li><a href="#vite">Vite</a></li>
-</ul></div>
-<div class="footer-links"><h4>Resources</h4><ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener">MDN JavaScript</a></li>
-<li><a href="https://tc39.es/ecma262/" target="_blank" rel="noopener">ECMAScript spec</a></li>
-<li><a href="https://nodejs.org/" target="_blank" rel="noopener">Node.js</a></li>
-<li><a href="#compat">Compatibility</a></li>
-<li><a href="#about">About</a></li>
-</ul></div>
-</div>
-<div class="footer-bottom">
-<span>© 2026 JShaman-JSMinify. All rights reserved.</span>
-<span>All online minification runs locally in your browser; code is never uploaded or stored.</span>
-</div>
-</div></footer>
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span class="brand-name">JS加密<span>//</span>在线JS加密</span></a>
+    <p>Free online JavaScript obfuscation utility.</p>
+    <div><span>© 2017—<b id="year"></b></span><a href="#top">BACK TO TOP ↑</a></div>
+  </footer>
 
-<noscript>&lt;p class="noscript-note"&gt;Online minification requires JavaScript.&lt;/p&gt;</noscript>
-
-<div class="toast" id="toast" role="status" aria-live="polite" hidden=""></div>
-<script src="jsminify.browser.js"></script>
-<script src="app.js"></script>
-
-
-</body></html>
+  <div class="toast" id="toast" role="status" aria-live="polite"><span></span><b id="toast-text">已复制到剪贴板</b></div>
+  <button id="btn1" type="button" hidden aria-hidden="true"></button>
+  <button id="btn2" type="button" hidden aria-hidden="true"></button>
+  <script src="./javascript-obfuscator-lite.js?v=1"></script>
+  <script src="./app.js?v=4"></script>
+</body>
+</html>
